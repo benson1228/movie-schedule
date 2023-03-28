@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>讀取資料清單</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/allcolor.css">
+    <link rel="stylesheet" href="css/fontawesome.min.css">
+    <link rel="stylesheet" href="css/wow.animate.min.css">
+    <style>
+        .box {
+            height: 1550px;
+            border-right: 2px solid var(--color28);
+            padding: 0 15px 0 15px;
+            background-color: var(--color10);
+        }
+
+        .li-bg {
+            background-color: var(--color2);
+        }
+
+        .li-bg a {
+            text-decoration: none;
+            color: #000;
+        }
+
+        @media screen and (min-width:1200px) {
+            #outside_form_search {
+                margin-left: 460px;
+            }
+
+            #form_search {
+                margin-left: 300px;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="row w-100">
+        <div class="col-2 bg-light">
+            <div class="box">
+                <ul class="list-unstyled list-group pt-5">
+
+                    <li class=" list-group-item btn li-bg btn-danger  d-block border border-2 border-dark mb-1">
+                        <a href="member/mem_R.html">會員</a>
+                    </li>
+
+                    <li class=" list-group-item btn li-bg  btn-danger d-block border border-2 border-dark mb-1">
+                        <a href="create.html">新增電影</a>
+                    </li>
+
+                    <li class=" list-group-item btn li-bg  btn-danger d-block border border-2 border-dark mb-1"> <a
+                            href="read_list.html"> 電影清單</a>
+                    </li>
+                    <li class=" list-group-item btn li-bg  btn-danger d-block border border-2 border-dark mb-1"> <a
+                            href="chart/chart.html">圖表</a>
+                    </li>
+
+                    <li class=" list-group-item btn li-bg  btn-danger d-block border border-2 border-dark mt-5">
+                        <a href="read_list.html"> 回首頁</a>
+                    </li>
+
+                    <li class=" list-group-item btn li-bg  btn-danger d-block border border-2 border-dark"
+                        style="margin-top: 300px;">
+                        <a href="member/index.html" id="btn_logout">登出</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-10 bg-light">
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-center">
+                        <h3 id="outside_form_search">電影清單</h3>
+                        <form class="d-flex" role="search" id="form_search">
+                            <input class="form-control me-2" id="search" type="search" placeholder="Search"
+                                aria-label="Search">
+                            <a class="btn btn-outline-primary text-nowrap" type="submit" id="search_btn">搜尋</a>
+                        </form>
+                    </div>
+                    <div class="container">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">編號</th>
+                                    <th scope="col">片名</th>
+                                    <th scope="col">類型</th>
+                                    <th scope="col">上映日期</th>
+                                    <th scope="col">電影長度</th>
+                                    <th scope="col">更新</th>
+                                    <th scope="col">刪除</th>
+                                </tr>
+                            </thead>
+                            <tbody id="read-list">
+                                <!-- <tr>
+                                    <th scope="row">1</th>
+                                    <td>Mark</td>
+                                    <td>Otto</td>
+                                    <td>@mdo</td>
+                                    <td>@mdo</td>
+                                    <td><a href="update.html" id="up_btn"><i class='fas fa-edit'
+                                                style='font-size:24px;color: var(--color11);'></i></a>
+                                    </td>
+                                    <td><a href="#" data-id="1" id="del_btn"><i class='fas fa-trash-alt'
+                                                style='font-size:24px;color: var(--color27);'></i></a></td>
+                                </tr> -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination d-flex justify-content-center" id="page-all">
+
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/fontawesome.min.js"></script>
+    <script src="js/jquery-3.6.3.min.js"></script>
+    <script src="js/wow.min.js"></script>
+    <script src="read_delete_list.js"></script>
+    <script>
+        var id;
+        $(function () {
+            //登出
+            $("#btn_logout").bind("click", function () {
+                alert("登出成功");
+            });
+            //讀取資料
+            $.ajax({
+                type: "GET",
+                url: "read_list.php",
+                dataType: "json",
+                async: false,
+                success: showdata,
+                error: function () {
+                    console.log("讀取失敗+read_list.php");
+                }
+            });
+            //搜尋
+            $("#search_btn").bind("click", function () {
+                let jsonData = {};
+                jsonData["mv_search"] = $("#search").val().split(" ").join("");
+                $.ajax({
+                    type: "post",
+                    url: "search.php",
+                    dataType: "json",
+                    data: JSON.stringify(jsonData),
+                    success: showdata_search,
+                    error: function () {
+                        alert("error_search.php");
+                    }
+                });
+            });
+
+
+
+        });
+
+        function showdata(data) {
+            var page_id = 0; //公有變數，抓取你點選的頁碼data-id;
+            var add = 0; //下一頁的公有變數，先預設為add=0;
+            var page_reduce01 = 1; //刪除下一頁頁碼背景，page_id=0的時候所使用的;
+            var page_add01 = 2; //新增下一頁頁碼背景，page_id=0的時候所使用的;
+            var page_count01 = 0; //公有變數，顯示第一個頁碼;
+            var page_count02 = 0; //公有變數，顯示第二個頁碼;
+            var page_count03 = 0; //公有變數，顯示第三個頁碼;
+            var page_end01; //公有變數，顯示最後一頁頁碼，固定不動;
+            var page_end02; //公有變數，顯示最後一頁頁碼，固定不動;
+            var page_end03; //公有變數，顯示最後一頁頁碼，固定不動;
+            $("#read-list").empty();
+            if (data.state) {
+                alert(data.message);
+
+                //用陣列來裝每頁需要的資料
+                let newData = [];
+                data.data.forEach(function (item, key) {
+                    if (key % 3 == 0) {
+                        newData.push([]);
+                    }
+                    let page = parseInt(key / 3);
+                    newData[page].push(item);
+                });
+
+                //開啟網頁第一頁要渲染的資料
+                newData[0].forEach(function (item, key) {
+                    let strHTML =
+                        `<tr>
+                            <th scope="row">${item["ID"]}</th>
+                            <td>${item["Mv_title"]}</td>
+                            <td>${item["Mv_genre"]}</td>
+                            <td>${item["Mv_release"]}</td>
+                            <td>${item["Mv_length"]}</td>
+                            <td><a href="update.html?id=${item["ID"]}" id="up_btn"><i class='fas fa-edit'
+                                        style='font-size:24px;color: var(--color11);'></i></a>
+                            </td>
+                            <td><a href="#" data-id="${item["ID"]}" id="del_btn"><i class='fas fa-trash-alt' 
+                            style='font-size:24px;color: var(--color27);' ></i></a></td>
+                        </tr>`;
+                    $("#read-list").append(strHTML);
+                });
+
+                //刪除監聽
+                read_delete_list();
+
+                //分頁渲染
+                let Previous = `<li class="page-item me-3"><a class="page-link" id="previous" href="#">上一頁</a></li>`;
+                $("#page-all").append(Previous);
+                $("#previous").hide();
+
+                for (i = 0; i < newData.length; i++) {
+                    if (i < 3) {
+                        let strPage =
+                            `<li class="page-item">
+                            <a class="page-link page-bg-number" id="page" href="#" data-id="${i}">${i + 1}</a>
+                        </li>`;
+                        $("#page-all").append(strPage);
+                    } else {
+                        let strPage =
+                            `<li class="page-item">
+                                <a class="page-link page-bg-number" style="display:none" id="page" href="#" data-id="${i}">${i + 1}</a>
+                            </li>`;
+                        $("#page-all").append(strPage);
+                    }
+                }
+
+                $("#page").css("background", "#d1dddb");
+
+                let Next = `<li class="page-item ms-3"><a class="page-link" id="next" href="#">下一頁</a></li>`;
+                $("#page-all").append(Next);
+
+                //點選監聽頁碼
+                $("#page-all #page").bind("click", function () {
+
+                    //先刪除上一個監聽到的頁碼背景
+                    $("#page-all #page").removeAttr("style", "background:#d1dddb");
+
+                    $(this).css("background", "#d1dddb");
+                    page_id = $(this).data("id");
+
+                    //顯示3個頁碼
+                    //到最後一頁，下一頁按鈕消失
+                    $("#page-all #page").hide();
+                    if (page_count02 >= newData.length) {
+                        page_end01 = page_count01;
+                        page_end02 = page_count02;
+                        page_end03 = page_count03;
+                        $("#page-all .page-item:nth-child(" + page_end01 + ") .page-bg-number").show();
+                        $("#page-all .page-item:nth-child(" + page_end02 + ") .page-bg-number").show();
+                        $("#page-all .page-item:nth-child(" + page_end03 + ") .page-bg-number").show();
+                    } else if (newData.length > 3) {
+                        page_count01 = page_id + 2;
+                        page_count02 = page_id + 3;
+                        page_count03 = page_id + 4;
+                        $("#page-all .page-item:nth-child(" + page_count01 + ") .page-bg-number").show();
+                        $("#page-all .page-item:nth-child(" + page_count02 + ") .page-bg-number").show();
+                        $("#page-all .page-item:nth-child(" + page_count03 + ") .page-bg-number").show();
+                    }
+
+                    $("#read-list").empty();
+                    newData[page_id].forEach(function (item, key) {
+                        let strHTML =
+                            `<tr>
+                                <th scope="row">${item.ID}</th>
+                                <td>${item.Mv_title}</td>
+                                <td>${item.Mv_genre}</td>
+                                <td>${item.Mv_release}</td>
+                                <td>${item.Mv_length}</td>
+                                <td><a href="update.html?id=${item.ID}" id="up_btn"><i class='fas fa-edit'
+                                            style='font-size:24px;color: var(--color11);'></i></a>
+                                </td>
+                                <td><a href="#" data-id="${item.ID}" id="del_btn"><i class='fas fa-trash-alt' 
+                                style='font-size:24px;color: var(--color27);' ></i></a></td>
+                            </tr>`;
+                        $("#read-list").append(strHTML);
+                    });
+
+                    //刪除監聽
+                    read_delete_list();
+
+                    //到最後一頁，下一頁按鈕消失
+                    if (page_id + 1 == newData.length) {
+                        $("#next").hide();
+                    } else {
+                        $("#next").show();
+                    }
+
+                    //到第一頁，第一頁按鈕消失
+                    if (page_id == 0) {
+                        $("#previous").hide();
+                        add = 0;
+                        page_reduce01 = 1;
+                        page_add01 = 2;
+                    } else {
+                        $("#previous").show();
+                    }
+                });
+
+
+                //下一頁按鈕
+                $("#next").bind("click", function () {
+                    if (page_id == 0) {
+                        add += 1; //公有變數，每按下一頁按鈕，就加一
+                        page_reduce01 = add + 1; //每按下一頁按鈕，就加二
+                        page_add01 = add + 2; //每按下一頁按鈕，就加三
+                        $("#read-list").empty();
+                        //渲染陣列
+                        newData[add].forEach(function (item, key) {
+                            let strHTML =
+                                `<tr>
+                                    <th scope="row">${item.ID}</th>
+                                    <td>${item.Mv_title}</td>
+                                    <td>${item.Mv_genre}</td>
+                                    <td>${item.Mv_release}</td>
+                                    <td>${item.Mv_length}</td>
+                                    <td><a href="update.html?id=${item.ID}" id="up_btn"><i class='fas fa-edit'
+                                                style='font-size:24px;color: var(--color11);'></i></a>
+                                    </td>
+                                    <td><a href="#" data-id="${item.ID}" id="del_btn"><i class='fas fa-trash-alt' 
+                                    style='font-size:24px;color: var(--color27);' ></i></a></td>
+                                </tr>`;
+                            $("#read-list").append(strHTML);
+                        });
+
+                        //刪除頁碼背景
+                        $("#page-all .page-item:nth-child(" + page_reduce01 + ") .page-bg-number").removeAttr("style", "background:#d1dddb");
+
+                        //新增頁碼背景
+                        $("#page-all .page-item:nth-child(" + page_add01 + ") .page-bg-number").css("background", "#d1dddb");
+
+                        //刪除監聽
+                        read_delete_list();
+
+                        //顯示3個頁碼
+                        //倒數第二頁，顯示3個頁碼固定不動
+                        $("#page-all #page").hide();
+                        if (page_count02 >= newData.length) {
+
+                            page_end01 = page_count01; //利用page_end01裝page_count01，不要被page_count01影響
+                            page_end02 = page_count02; //利用page_end02裝page_count02，不要被page_count02影響
+                            page_end03 = page_count03; //利用page_end02裝page_count03，不要被page_count03影響
+                            $("#page-all .page-item:nth-child(" + page_end01 + ") .page-bg-number").show();
+                            $("#page-all .page-item:nth-child(" + page_end02 + ") .page-bg-number").show();
+                            $("#page-all .page-item:nth-child(" + page_end03 + ") .page-bg-number").show();
+
+                        } else {
+                            page_count01 = add + 2; //跑.page-item:nth-child
+                            page_count02 = add + 3; //跑.page-item:nth-child
+                            page_count03 = add + 4; //跑.page-item:nth-child
+                            $("#page-all .page-item:nth-child(" + page_count01 + ") .page-bg-number").show();
+                            $("#page-all .page-item:nth-child(" + page_count02 + ") .page-bg-number").show();
+                            $("#page-all .page-item:nth-child(" + page_count03 + ") .page-bg-number").show();
+
+                        }
+
+                        //到最後一頁，下一頁按鈕消失
+                        if (add + 1 == newData.length) {
+                            $("#next").hide();
+
+                        } else {
+                            $("#next").show();
+                        }
+
+                        if (add == 0) { //到第一頁，第一頁按鈕消失
+                            $("#previous").hide();
+
+                        } else {
+                            $("#previous").show();
+
+                        }
+
+                    } else {
+                        //當page_id不等於0
+                        $("#read-list").empty();
+                        page_id += 1;
+                        newData[page_id].forEach(function (item, key) {
+                            let strHTML =
+                                `<tr>
+                                    <th scope="row">${item.ID}</th>
+                                    <td>${item.Mv_title}</td>
+                                    <td>${item.Mv_genre}</td>
+                                    <td>${item.Mv_release}</td>
+                                    <td>${item.Mv_length}</td>
+                                    <td><a href="update.html?id=${item.ID}" id="up_btn"><i class='fas fa-edit'
+                                                style='font-size:24px;color: var(--color11);'></i></a>
+                                    </td>
+                                    <td><a href="#" data-id="${item.ID}" id="del_btn"><i class='fas fa-trash-alt' 
+                                        style='font-size:24px;color: var(--color27);' ></i></a></td>
+                                        </tr>`;
+                            $("#read-list").append(strHTML);
+                        });
+
+
+                        page_add02 = page_id; //page_id帶入
+                        page_add02 += 2;
+                        page_reduce02 = page_id; //page_id帶入
+                        page_reduce02 += 1;
+                        //跑頁碼顏色
+                        $("#page-all .page-item:nth-child(" + page_add02 + ") .page-bg-number").css("background", "#d1dddb");
+                        $("#page-all .page-item:nth-child(" + page_reduce02 + ") .page-bg-number").removeAttr("style", "background:#d1dddb");
+
+                        //刪除監聽
+                        read_delete_list();
+
+                        //頁數只有三頁的時候固定不動
+                        //倒數第二頁，顯示3個頁碼固定不動
+                        //顯示3個頁碼
+                        $("#page-all #page").hide();
+                        if (newData.length <= 3) {
+                            page_count01 = page_id; //跑.page-item:nth-child
+                            page_count02 = page_id + 1; //跑.page-item:nth-child
+                            page_count03 = page_id + 2; //跑.page-item:nth-child
+                            $("#page-all .page-item:nth-child(" + page_count01 + ") .page-bg-number").show();
+                            $("#page-all .page-item:nth-child(" + page_count02 + ") .page-bg-number").show();
+                            $("#page-all .page-item:nth-child(" + page_count03 + ") .page-bg-number").show();
+
+                        } else if (page_count02 >= newData.length) {
+                            page_end01 = page_count01; //利用page_end01裝page_count01，不要被page_count01影響
+                            page_end02 = page_count02; //利用page_end02裝page_count02，不要被page_count02影響
+                            page_end03 = page_count03; //利用page_end02裝page_count03，不要被page_count03影響
+                            $("#page-all .page-item:nth-child(" + page_end01 + ") .page-bg-number").show();
+                            $("#page-all .page-item:nth-child(" + page_end02 + ") .page-bg-number").show();
+                            $("#page-all .page-item:nth-child(" + page_end03 + ") .page-bg-number").show();
+                        } else {
+                            page_count01 = page_id + 2; //跑.page-item:nth-child
+                            page_count02 = page_id + 3; //跑.page-item:nth-child
+                            page_count03 = page_id + 4; //跑.page-item:nth-child
+                            $("#page-all .page-item:nth-child(" + page_count01 + ") .page-bg-number").show();
+                            $("#page-all .page-item:nth-child(" + page_count02 + ") .page-bg-number").show();
+                            $("#page-all .page-item:nth-child(" + page_count03 + ") .page-bg-number").show();
+                        }
+
+                        //到最後一頁，下一頁按鈕消失
+                        if (page_id + 1 == newData.length) {
+                            $("#next").hide();
+                        } else {
+                            $("#next").show();
+                        }
+
+                        //到第一頁，第一頁按鈕消失
+                        if (page_id == 0) {
+                            $("#page-all .page-item:nth-child(" + page_reduce02 + ") .page-bg-number").removeAttr("style", "background:#d1dddb");
+                            $("#previous").hide();
+                        } else {
+                            $("#previous").show();
+                        }
+
+                    }
+
+                });
+
+                //上一頁按鈕
+                $("#previous").bind("click", function () {
+                    //自訂的add不等於零並且不點任何頁碼保持預設值為零。
+                    if (add != undefined && add != 0 && page_id == 0) {
+
+                        $("#read-list").empty();
+                        add -= 1;
+                        newData[add].forEach(function (item, key) {
+                            let strHTML =
+                                `<tr>
+                                    <th scope="row">${item.ID}</th>
+                                    <td>${item.Mv_title}</td>
+                                    <td>${item.Mv_genre}</td>
+                                    <td>${item.Mv_release}</td>
+                                    <td>${item.Mv_length}</td>
+                                    <td><a href="update.html?id=${item.ID}" id="up_btn"><i class='fas fa-edit'
+                                                style='font-size:24px;color: var(--color11);'></i></a>
+                                    </td>
+                                    <td><a href="#" data-id="${item.ID}" id="del_btn"><i class='fas fa-trash-alt' 
+                                    style='font-size:24px;color: var(--color27);' ></i></a></td>
+                                </tr>`;
+                            $("#read-list").append(strHTML);
+                        });
+
+                        page_add03 = add; //add帶入
+                        page_add03 += 2;
+                        page_reduce03 = add; //add帶入
+                        page_reduce03 += 3;
+                        //跑頁碼顏色
+                        $("#page-all .page-item:nth-child(" + page_add03 + ") .page-bg-number").css("background", "#d1dddb");
+                        $("#page-all .page-item:nth-child(" + page_reduce03 + ") .page-bg-number").removeAttr("style", "background:#d1dddb");
+
+                        //刪除監聽
+                        read_delete_list();
+
+                        //顯示3個頁碼
+                        $("#page-all #page").hide();
+                        page_count01 = add + 2;
+                        page_count02 = add + 3;
+                        page_count03 = add + 4;
+                        $("#page-all .page-item:nth-child(" + page_count01 + ") .page-bg-number").show();
+                        $("#page-all .page-item:nth-child(" + page_count02 + ") .page-bg-number").show();
+                        $("#page-all .page-item:nth-child(" + page_count03 + ") .page-bg-number").show();
+
+                        //倒數第二頁，顯示3個頁碼固定不動
+                        if (page_count02 > newData.length) {
+
+                            page_end01 = page_count01 - 1; //利用page_end01裝page_count01，不要被page_count01影響
+                            page_end02 = page_count02 - 1; //利用page_end02裝page_count02，不要被page_count02影響
+                            page_end03 = page_count03 - 1; //利用page_end02裝page_count03，不要被page_count03影響
+                            $("#page-all .page-item:nth-child(" + page_end01 + ") .page-bg-number").show();
+                            $("#page-all .page-item:nth-child(" + page_end02 + ") .page-bg-number").show();
+                            $("#page-all .page-item:nth-child(" + page_end03 + ") .page-bg-number").show();
+
+                        }
+
+                        if (add == 0) { //到第一頁，第一頁按鈕消失
+                            $("#previous").hide();
+                            $("#next").show();
+                            page_reduce01 = 1;
+                            page_add01 = 2;
+                        } else { //到最後一頁，下一頁按鈕消失
+                            $("#previous").show();
+                            $("#next").show();
+                        }
+
+                    } else {
+                        $("#read-list").empty();
+                        page_id -= 1;
+                        newData[page_id].forEach(function (item, key) {
+                            let strHTML =
+                                `<tr>
+                                    <th scope="row">${item.ID}</th>
+                                    <td>${item.Mv_title}</td>
+                                    <td>${item.Mv_genre}</td>
+                                    <td>${item.Mv_release}</td>
+                                    <td>${item.Mv_length}</td>
+                                    <td><a href="update.html?id=${item.ID}" id="up_btn"><i class='fas fa-edit'
+                                                style='font-size:24px;color: var(--color11);'></i></a>
+                                    </td>
+                                    <td><a href="#" data-id="${item.ID}" id="del_btn"><i class='fas fa-trash-alt' 
+                                    style='font-size:24px;color: var(--color27);' ></i></a></td>
+                                </tr>`;
+                            $("#read-list").append(strHTML);
+                        });
+
+                        page_add04 = page_id; //page_id帶入
+                        page_add04 += 2;
+                        page_reduce04 = page_id; //page_id帶入
+                        page_reduce04 += 3;
+                        //跑頁碼顏色
+                        $("#page-all .page-item:nth-child(" + page_add04 + ") .page-bg-number").css("background", "#d1dddb");
+                        $("#page-all .page-item:nth-child(" + page_reduce04 + ") .page-bg-number").removeAttr("style", "background:#d1dddb");
+
+                        read_delete_list();
+
+                        //顯示3個頁碼
+                        //第一頁，顯示3個頁碼固定不動
+                        $("#page-all #page").hide();
+                        page_count01 = page_id + 1;
+                        page_count02 = page_id + 2;
+                        page_count03 = page_id + 3;
+                        $("#page-all .page-item:nth-child(" + page_count01 + ") .page-bg-number").show();
+                        $("#page-all .page-item:nth-child(" + page_count02 + ") .page-bg-number").show();
+                        $("#page-all .page-item:nth-child(" + page_count03 + ") .page-bg-number").show();
+
+
+                        if (page_id == 0) {
+                            page_end01 = page_count01 + 1;
+                            page_end02 = page_count02 + 1;
+                            page_end03 = page_count03 + 1;
+                            $("#page-all .page-item:nth-child(" + page_end01 + ") .page-bg-number").show();
+                            $("#page-all .page-item:nth-child(" + page_end02 + ") .page-bg-number").show();
+                            $("#page-all .page-item:nth-child(" + page_end03 + ") .page-bg-number").show();
+                        }
+
+                        if (page_id == 0) { //到第一頁，第一頁按鈕消失
+                            $("#previous").hide();
+                            $("#next").show();
+                            add = 0;
+                            page_reduce01 = 1;
+                            page_add01 = 2;
+
+                        } else { //到最後一頁，下一頁按鈕消失
+                            $("#previous").show();
+                            $("#next").show();
+                        }
+
+                    }
+
+
+                });
+
+            } else {
+                console.log(data.message)
+            }
+        };
+
+        //搜尋
+        function showdata_search(data) {
+            if (data.state) {
+
+                var page_id = 0; //公有變數，抓取你點選的頁碼data-id;
+                var add = 0; //下一頁的公有變數，先預設為add=0;
+                var page_reduce01 = 1; //刪除下一頁頁碼背景，page_id=0的時候所使用的;
+                var page_add01 = 2; //新增下一頁頁碼背景，page_id=0的時候所使用的;
+                var page_count01 = 0; //公有變數，顯示第一個頁碼;
+                var page_count02 = 0; //公有變數，顯示第二個頁碼;
+                var page_count03 = 0; //公有變數，顯示第三個頁碼;
+                var page_end01; //公有變數，顯示最後一頁頁碼，固定不動;
+                var page_end02; //公有變數，顯示最後一頁頁碼，固定不動;
+                var page_end03; //公有變數，顯示最後一頁頁碼，固定不動;
+                $("#read-list").empty();
+                $("#page-all").empty();
+                $("#search").val("");
+                alert(data.message);
+
+                //用陣列來裝每頁需要的資料
+                let newData = [];
+                data.data.forEach(function (item, key) {
+                    if (key % 3 == 0) {
+                        newData.push([]);
+                    }
+                    let page = parseInt(key / 3);
+                    newData[page].push(item);
+
+                });
+
+                //開啟網頁第一頁要渲染的資料
+                newData[0].forEach(function (item, key) {
+                    let strHTML =
+                        `<tr>
+                            <th scope="row">${item["ID"]}</th>
+                            <td>${item["Mv_title"]}</td>
+                            <td>${item["Mv_genre"]}</td>
+                            <td>${item["Mv_release"]}</td>
+                            <td>${item["Mv_length"]}</td>
+                            <td><a href="update.html?id=${item["ID"]}" id="up_btn"><i class='fas fa-edit'
+                                        style='font-size:24px;color: var(--color11);'></i></a>
+                            </td>
+                            <td><a href="#" data-id="${item["ID"]}" id="del_btn"><i class='fas fa-trash-alt' 
+                            style='font-size:24px;color: var(--color27);' ></i></a></td>
+                        </tr>`;
+                    $("#read-list").append(strHTML);
+                });
+
+                //刪除監聽
+                read_delete_list();
+
+                //分頁渲染
+                let Previous = `<li class="page-item me-3"><a class="page-link" id="previous" href="#">上一頁</a></li>`;
+                $("#page-all").append(Previous);
+                $("#previous").hide();
+
+                for (i = 0; i < newData.length; i++) {
+                    if (i < 3) {
+                        let strPage =
+                            `<li class="page-item">
+                            <a class="page-link page-bg-number" id="page" href="#" data-id="${i}">${i + 1}</a>
+                        </li>`;
+                        $("#page-all").append(strPage);
+                    } else {
+                        let strPage =
+                            `<li class="page-item">
+                                <a class="page-link page-bg-number" style="display:none" id="page" href="#" data-id="${i}">${i + 1}</a>
+                            </li>`;
+                        $("#page-all").append(strPage);
+                    }
+                }
+
+                $("#page").css("background", "#d1dddb");
+
+                let Next = `<li class="page-item ms-3"><a class="page-link" id="next" href="#">下一頁</a></li>`;
+                $("#page-all").append(Next);
+                //只有一頁，下一頁按鈕消失
+                if (newData.length == 1) {
+                    $("#next").hide();
+                }
+
+
+                //點選監聽頁碼
+                $("#page-all #page").bind("click", function () {
+
+                    //先刪除上一個監聽到的頁碼背景
+                    $("#page-all #page").removeAttr("style", "background:#d1dddb");
+
+                    $(this).css("background", "#d1dddb");
+                    page_id = $(this).data("id");
+
+
+
+                    //到最後一頁，顯示3個頁碼
+                    if (page_count02 >= newData.length) {
+                        $("#page-all #page").hide();
+                        page_end01 = page_count01;
+                        page_end02 = page_count02;
+                        page_end03 = page_count03;
+                        $("#page-all .page-item:nth-child(" + page_end01 + ") .page-bg-number").show();
+                        $("#page-all .page-item:nth-child(" + page_end02 + ") .page-bg-number").show();
+                        $("#page-all .page-item:nth-child(" + page_end03 + ") .page-bg-number").show();
+                    } else if (newData.length > 3) {
+                        //隱藏所有頁碼 
+                        $("#page-all #page").hide();
+                        page_count01 = page_id + 2;
+                        page_count02 = page_id + 3;
+                        page_count03 = page_id + 4;
+                        $("#page-all .page-item:nth-child(" + page_count01 + ") .page-bg-number").show();
+                        $("#page-all .page-item:nth-child(" + page_count02 + ") .page-bg-number").show();
+                        $("#page-all .page-item:nth-child(" + page_count03 + ") .page-bg-number").show();
+                    }
+
+                    $("#read-list").empty();
+                    newData[page_id].forEach(function (item, key) {
+                        let strHTML =
+                            `<tr>
+                                <th scope="row">${item.ID}</th>
+                                <td>${item.Mv_title}</td>
+                                <td>${item.Mv_genre}</td>
+                                <td>${item.Mv_release}</td>
+                                <td>${item.Mv_length}</td>
+                                <td><a href="update.html?id=${item.ID}" id="up_btn"><i class='fas fa-edit'
+                                            style='font-size:24px;color: var(--color11);'></i></a>
+                                </td>
+                                <td><a href="#" data-id="${item.ID}" id="del_btn"><i class='fas fa-trash-alt' 
+                                style='font-size:24px;color: var(--color27);' ></i></a></td>
+                            </tr>`;
+                        $("#read-list").append(strHTML);
+                    });
+
+                    //刪除監聽
+                    read_delete_list();
+
+                    //到最後一頁，下一頁按鈕消失
+                    if (page_id + 1 == newData.length) {
+                        $("#next").hide();
+                    } else {
+                        $("#next").show();
+                    }
+
+                    //到第一頁，第一頁按鈕消失
+                    if (page_id == 0) {
+                        $("#previous").hide();
+                        add = 0;
+                        page_reduce01 = 1;
+                        page_add01 = 2;
+                    } else {
+                        $("#previous").show();
+                    }
+                });
+
+
+                //下一頁按鈕
+                $("#next").bind("click", function () {
+                    if (page_id == 0) {
+                        add += 1; //公有變數，每按下一頁按鈕，就加一
+                        page_reduce01 = add + 1; //每按下一頁按鈕，就加二
+                        page_add01 = add + 2; //每按下一頁按鈕，就加三
+                        $("#read-list").empty();
+                        //渲染陣列
+                        newData[add].forEach(function (item, key) {
+                            let strHTML =
+                                `<tr>
+                                    <th scope="row">${item.ID}</th>
+                                    <td>${item.Mv_title}</td>
+                                    <td>${item.Mv_genre}</td>
+                                    <td>${item.Mv_release}</td>
+                                    <td>${item.Mv_length}</td>
+                                    <td><a href="update.html?id=${item.ID}" id="up_btn"><i class='fas fa-edit'
+                                                style='font-size:24px;color: var(--color11);'></i></a>
+                                    </td>
+                                    <td><a href="#" data-id="${item.ID}" id="del_btn"><i class='fas fa-trash-alt' 
+                                    style='font-size:24px;color: var(--color27);' ></i></a></td>
+                                </tr>`;
+                            $("#read-list").append(strHTML);
+                        });
+
+                        //刪除頁碼背景
+                        $("#page-all .page-item:nth-child(" + page_reduce01 + ") .page-bg-number").removeAttr("style", "background:#d1dddb");
+
+                        //新增頁碼背景
+                        $("#page-all .page-item:nth-child(" + page_add01 + ") .page-bg-number").css("background", "#d1dddb");
+
+                        //刪除監聽
+                        read_delete_list();
+
+                        //顯示3個頁碼
+                        //倒數第二頁，顯示3個頁碼固定不動
+                        $("#page-all #page").hide();
+                        if (page_count02 >= newData.length) {
+
+                            page_end01 = page_count01; //利用page_end01裝page_count01，不要被page_count01影響
+                            page_end02 = page_count02; //利用page_end02裝page_count02，不要被page_count02影響
+                            page_end03 = page_count03; //利用page_end02裝page_count03，不要被page_count03影響
+                            $("#page-all .page-item:nth-child(" + page_end01 + ") .page-bg-number").show();
+                            $("#page-all .page-item:nth-child(" + page_end02 + ") .page-bg-number").show();
+                            $("#page-all .page-item:nth-child(" + page_end03 + ") .page-bg-number").show();
+
+                        } else {
+                            page_count01 = add + 1; //跑.page-item:nth-child
+                            page_count02 = add + 2; //跑.page-item:nth-child
+                            page_count03 = add + 3; //跑.page-item:nth-child
+                            $("#page-all .page-item:nth-child(" + page_count01 + ") .page-bg-number").show();
+                            $("#page-all .page-item:nth-child(" + page_count02 + ") .page-bg-number").show();
+                            $("#page-all .page-item:nth-child(" + page_count03 + ") .page-bg-number").show();
+
+
+                        }
+
+                        //到最後一頁，下一頁按鈕消失
+                        if (add + 1 == newData.length) {
+                            $("#next").hide();
+
+                        } else {
+                            $("#next").show();
+                        }
+
+                        if (add == 0) { //到第一頁，第一頁按鈕消失
+                            $("#previous").hide();
+
+                        } else {
+                            $("#previous").show();
+
+                        }
+
+                    } else {
+                        //當page_id不等於0
+                        $("#read-list").empty();
+                        page_id += 1;
+                        newData[page_id].forEach(function (item, key) {
+                            let strHTML =
+                                `<tr>
+                                    <th scope="row">${item.ID}</th>
+                                    <td>${item.Mv_title}</td>
+                                    <td>${item.Mv_genre}</td>
+                                    <td>${item.Mv_release}</td>
+                                    <td>${item.Mv_length}</td>
+                                    <td><a href="update.html?id=${item.ID}" id="up_btn"><i class='fas fa-edit'
+                                                style='font-size:24px;color: var(--color11);'></i></a>
+                                    </td>
+                                    <td><a href="#" data-id="${item.ID}" id="del_btn"><i class='fas fa-trash-alt' 
+                                        style='font-size:24px;color: var(--color27);' ></i></a></td>
+                                        </tr>`;
+                            $("#read-list").append(strHTML);
+                        });
+
+
+                        page_add02 = page_id; //page_id帶入
+                        page_add02 += 2;
+                        page_reduce02 = page_id; //page_id帶入
+                        page_reduce02 += 1;
+                        //跑頁碼顏色
+                        $("#page-all .page-item:nth-child(" + page_add02 + ") .page-bg-number").css("background", "#d1dddb");
+                        $("#page-all .page-item:nth-child(" + page_reduce02 + ") .page-bg-number").removeAttr("style", "background:#d1dddb");
+
+                        //刪除監聽
+                        read_delete_list();
+
+                        //頁數只有三頁的時候固定不動
+                        //倒數第二頁，顯示3個頁碼固定不動
+                        //顯示3個頁碼
+                        $("#page-all #page").hide();
+                        if (newData.length <= 3) {
+                            page_count01 = page_id; //跑.page-item:nth-child
+                            page_count02 = page_id + 1; //跑.page-item:nth-child
+                            page_count03 = page_id + 2; //跑.page-item:nth-child
+                            $("#page-all .page-item:nth-child(" + page_count01 + ") .page-bg-number").show();
+                            $("#page-all .page-item:nth-child(" + page_count02 + ") .page-bg-number").show();
+                            $("#page-all .page-item:nth-child(" + page_count03 + ") .page-bg-number").show();
+
+
+                        } else if (page_count02 >= newData.length) {
+                            page_end01 = page_count01; //利用page_end01裝page_count01，不要被page_count01影響
+                            page_end02 = page_count02; //利用page_end02裝page_count02，不要被page_count02影響
+                            page_end03 = page_count03; //利用page_end02裝page_count03，不要被page_count03影響
+                            $("#page-all .page-item:nth-child(" + page_end01 + ") .page-bg-number").show();
+                            $("#page-all .page-item:nth-child(" + page_end02 + ") .page-bg-number").show();
+                            $("#page-all .page-item:nth-child(" + page_end03 + ") .page-bg-number").show();
+
+                        } else {
+                            page_count01 = page_id + 2; //跑.page-item:nth-child
+                            page_count02 = page_id + 3; //跑.page-item:nth-child
+                            page_count03 = page_id + 4; //跑.page-item:nth-child
+                            $("#page-all .page-item:nth-child(" + page_count01 + ") .page-bg-number").show();
+                            $("#page-all .page-item:nth-child(" + page_count02 + ") .page-bg-number").show();
+                            $("#page-all .page-item:nth-child(" + page_count03 + ") .page-bg-number").show();
+
+                        }
+
+
+                        //到最後一頁，下一頁按鈕消失
+                        if (page_id + 1 == newData.length) {
+                            $("#next").hide();
+                        } else {
+                            $("#next").show();
+                        }
+
+                        //到第一頁，第一頁按鈕消失
+                        if (page_id == 0) {
+                            $("#page-all .page-item:nth-child(" + page_reduce02 + ") .page-bg-number").removeAttr("style", "background:#d1dddb");
+                            $("#previous").hide();
+                        } else {
+                            $("#previous").show();
+                        }
+
+                    }
+
+                });
+
+                //上一頁按鈕
+                $("#previous").bind("click", function () {
+                    //自訂的add不等於零並且不點任何頁碼保持預設值為零。
+                    if (add != undefined && add != 0 && page_id == 0) {
+
+                        $("#read-list").empty();
+                        add -= 1;
+                        newData[add].forEach(function (item, key) {
+                            let strHTML =
+                                `<tr>
+                                    <th scope="row">${item.ID}</th>
+                                    <td>${item.Mv_title}</td>
+                                    <td>${item.Mv_genre}</td>
+                                    <td>${item.Mv_release}</td>
+                                    <td>${item.Mv_length}</td>
+                                    <td><a href="update.html?id=${item.ID}" id="up_btn"><i class='fas fa-edit'
+                                                style='font-size:24px;color: var(--color11);'></i></a>
+                                    </td>
+                                    <td><a href="#" data-id="${item.ID}" id="del_btn"><i class='fas fa-trash-alt' 
+                                    style='font-size:24px;color: var(--color27);' ></i></a></td>
+                                </tr>`;
+                            $("#read-list").append(strHTML);
+                        });
+
+                        page_add03 = add; //add帶入
+                        page_add03 += 2;
+                        page_reduce03 = add; //add帶入
+                        page_reduce03 += 3;
+                        //跑頁碼顏色
+                        $("#page-all .page-item:nth-child(" + page_add03 + ") .page-bg-number").css("background", "#d1dddb");
+                        $("#page-all .page-item:nth-child(" + page_reduce03 + ") .page-bg-number").removeAttr("style", "background:#d1dddb");
+
+                        //刪除監聽
+                        read_delete_list();
+
+                        //顯示3個頁碼
+                        $("#page-all #page").hide();
+                        page_count01 = add + 2;
+                        page_count02 = add + 3;
+                        page_count03 = add + 4;
+                        $("#page-all .page-item:nth-child(" + page_count01 + ") .page-bg-number").show();
+                        $("#page-all .page-item:nth-child(" + page_count02 + ") .page-bg-number").show();
+                        $("#page-all .page-item:nth-child(" + page_count03 + ") .page-bg-number").show();
+
+                        //倒數第二頁，顯示3個頁碼固定不動
+                        if (page_count02 > newData.length) {
+
+                            page_end01 = page_count01 - 1; //利用page_end01裝page_count01，不要被page_count01影響
+                            page_end02 = page_count02 - 1; //利用page_end02裝page_count02，不要被page_count02影響
+                            page_end03 = page_count03 - 1; //利用page_end02裝page_count03，不要被page_count03影響
+                            $("#page-all .page-item:nth-child(" + page_end01 + ") .page-bg-number").show();
+                            $("#page-all .page-item:nth-child(" + page_end02 + ") .page-bg-number").show();
+                            $("#page-all .page-item:nth-child(" + page_end03 + ") .page-bg-number").show();
+
+                        }
+
+                        if (add == 0) { //到第一頁，第一頁按鈕消失
+                            $("#previous").hide();
+                            $("#next").show();
+                            page_reduce01 = 1;
+                            page_add01 = 2;
+                        } else { //到最後一頁，下一頁按鈕消失
+                            $("#previous").show();
+                            $("#next").show();
+                        }
+
+                    } else {
+                        $("#read-list").empty();
+                        page_id -= 1;
+                        newData[page_id].forEach(function (item, key) {
+                            let strHTML =
+                                `<tr>
+                                    <th scope="row">${item.ID}</th>
+                                    <td>${item.Mv_title}</td>
+                                    <td>${item.Mv_genre}</td>
+                                    <td>${item.Mv_release}</td>
+                                    <td>${item.Mv_length}</td>
+                                    <td><a href="update.html?id=${item.ID}" id="up_btn"><i class='fas fa-edit'
+                                                style='font-size:24px;color: var(--color11);'></i></a>
+                                    </td>
+                                    <td><a href="#" data-id="${item.ID}" id="del_btn"><i class='fas fa-trash-alt' 
+                                    style='font-size:24px;color: var(--color27);' ></i></a></td>
+                                </tr>`;
+                            $("#read-list").append(strHTML);
+                        });
+
+                        page_add04 = page_id; //page_id帶入
+                        page_add04 += 2;
+                        page_reduce04 = page_id; //page_id帶入
+                        page_reduce04 += 3;
+                        //跑頁碼顏色
+                        $("#page-all .page-item:nth-child(" + page_add04 + ") .page-bg-number").css("background", "#d1dddb");
+                        $("#page-all .page-item:nth-child(" + page_reduce04 + ") .page-bg-number").removeAttr("style", "background:#d1dddb");
+
+                        read_delete_list();
+
+                        //顯示3個頁碼
+                        //第一頁，顯示3個頁碼固定不動
+                        $("#page-all #page").hide();
+                        page_count01 = page_id + 1;
+                        page_count02 = page_id + 2;
+                        page_count03 = page_id + 3;
+                        $("#page-all .page-item:nth-child(" + page_count01 + ") .page-bg-number").show();
+                        $("#page-all .page-item:nth-child(" + page_count02 + ") .page-bg-number").show();
+                        $("#page-all .page-item:nth-child(" + page_count03 + ") .page-bg-number").show();
+
+
+                        if (page_id == 0) {
+                            page_end01 = page_count01 + 1;
+                            page_end02 = page_count02 + 1;
+                            page_end03 = page_count03 + 1;
+                            $("#page-all .page-item:nth-child(" + page_end01 + ") .page-bg-number").show();
+                            $("#page-all .page-item:nth-child(" + page_end02 + ") .page-bg-number").show();
+                            $("#page-all .page-item:nth-child(" + page_end03 + ") .page-bg-number").show();
+                        }
+
+                        if (page_id == 0) { //到第一頁，第一頁按鈕消失
+                            $("#previous").hide();
+                            $("#next").show();
+                            add = 0;
+                            page_reduce01 = 1;
+                            page_add01 = 2;
+
+                        } else { //到最後一頁，下一頁按鈕消失
+                            $("#previous").show();
+                            $("#next").show();
+                        }
+
+                    }
+
+
+                });
+
+            } else {
+                alert(data.message);
+                $("#search").val("");
+            }
+        }
+    </script>
+
+
+</body>
+
+</html>

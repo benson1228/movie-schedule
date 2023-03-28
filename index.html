@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/fontawesome.min.css">
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css" />
+    <link rel="stylesheet" href="css/btn-arrow.css">
+    <link rel="stylesheet" href="css/allcolor.css">
+    <link rel="stylesheet" href="css/wow.animate.min.css">
+
+    <title>電影查詢</title>
+    <style>
+        .text {
+            font-size: 24px;
+        }
+
+        .footer-hover {
+            text-decoration: none;
+        }
+
+        .footer-hover:hover {
+            text-decoration: underline;
+        }
+    </style>
+
+
+</head>
+
+<body class="bg-light">
+    <!-- *************************************選單************ -->
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <nav class="navbar navbar-expand-lg">
+                    <div class="container-fluid">
+                        <img class="rounded-3 navbar-brand" src="logo/Logo.gif" height="70">
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav my-auto mb-2 mb-lg-0 ms-4">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="movie-release/movie_release.html" id="btn-release"><span
+                                            class="text">上映中</span></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="leaderboard/leaderboard.html" id="btn-leaderboard"><span
+                                            class="text">排行榜</span></a>
+                                </li>
+                                <li class="nav-item ms-2 my-auto">
+                                    <!-- <a href="#" id="btn-fa-search" style="text-decoration:none;color: black;"><i
+                                            class='fas fa-search text' style="margin-top: 14px;"></i></a> -->
+                                    <form class="d-flex" role="search">
+                                        <input id="input-search" class="form-control wow animate__fadeInDown"
+                                            type="search" placeholder="Search" aria-label="Search"
+                                            data-wow-duration="1s" data-wow-delay="0s" data-wow-iteration="1">
+                                        <button id="btn-search"
+                                            class="btn btn-success ms-2 text-nowrap wow animate__fadeInDown"
+                                            type="submit" data-wow-duration="1s" data-wow-delay="0s"
+                                            data-wow-iteration="1">搜尋</button>
+                                    </form>
+
+                                </li>
+
+
+
+                                <li class="nav-item dropdown" style="display: none;" id="link_control03">
+
+                                    <a class="nav-link dropdown-toggle text text-primary" href="#" role="button"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        VIP&nbsp;<span class="fs-5">功能</span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a target="_blank" class="dropdown-item text-primary"
+                                                href="toilet.html">全台公廁地圖</a></li>
+                                    </ul>
+
+                                </li>
+                            </ul>
+
+                            <form class="d-flex ms-auto" role="search">
+                                <i id="member-icon" class="fa-solid fa-user-tie fa-2xl text-danger me-2"
+                                    style="display: none;"></i>
+                                <span class="text-danger me-4 text-sm mt-1" id="login_member"></span>
+                                <button class="btn btn-lg btn-outline-dark me-2 wow animate__bounce" type="button"
+                                    data-bs-toggle="modal" data-bs-target="#loginModal" id="s2_login_btn">登入</button>
+                                <button class="btn btn-lg btn-dark me-2" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#registerModal" id="s2_reg_btn">註冊</button>
+                                <button class="btn btn-sm btn-danger" type="button" id="s2_logout_btn"
+                                    style="display: none;">登出</button>
+                            </form>
+
+                        </div>
+
+                    </div>
+                </nav>
+            </div>
+        </div>
+
+        <!-- loginModal -->
+        <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+            data-bs-backdrop="static">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-success">
+                        <h1 class="modal-title fs-5 text-white" id="exampleModalLabel">會員登入</h1>
+                        <button type="button" class="btn-close login_cls_btn" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="login_username" class="form-label">帳號</label>
+                            <input type="text" id="login_username" name="login_username" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label for="login_password" class="form-label">密碼</label>
+                            <input type="password" id="login_password" name="login_password" class="form-control">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" class="me-auto" data-bs-toggle="modal" data-bs-target="#registerModal">沒有帳號,
+                            註冊去!!!</a>
+                        <button type="button" class="btn btn-secondary login_cls_btn"
+                            data-bs-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-primary" id="login_btn" data-bs-dismiss="modal">確認</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- registerModal -->
+        <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+            data-bs-backdrop="static">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header bg-warning">
+                        <h1 class="modal-title fs-5 text-white" id="exampleModalLabel">會員註冊</h1>
+                        <button type="button" class="btn-close register_cls_btn" id="" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="fs-2">
+                                    會員守則
+                                </div>
+                                <div class="fs-5">1.市場過程背後開口手上記者溫柔事實告知我是資料網際經過，引導是我你們的經營你就精英避免上門活力投訴寶。</div>
+                                <div class="fs-5">2.市場過程背後開口手上記者溫柔事實告知我是資料網際經過，引導是我你們的經營你就精英寶。</div>
+                                <div class="fs-5">3.市場過程背後開口手上記者溫柔事實告知我是資料網際經過，引導是我你們的經營你就精英避免上門投訴寶。</div>
+                                <div class="fs-5">4.市場過程背後開口手上記者溫柔我是資料網際經過，引導是我你們的經營你就精英避免上門活力投訴寶。</div>
+                                <div class="form-check">
+                                    <input type="checkbox" id="mem_check01" name="mem_check01" class="form-check-input"
+                                        value="true">
+                                    <label for="mem_check01" class="form-check-label">我會遵守</label>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="mb-3">
+                                    <label for="reg_username" class="form-label">帳號</label>
+                                    <input type="text" id="reg_username" name="reg_username" class="form-control"
+                                        placeholder="帳號 1-8字!" required>
+                                    <div class="valid-feedback" id="reg_valid-feedback">帳號輸入正確!</div>
+                                    <div class="invalid-feedback" id="reg_invalid-feedback">帳號輸入錯誤!</div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="reg_password" class="form-label">密碼</label>
+                                    <input type="password" id="reg_password" name="reg_password" class="form-control"
+                                        placeholder="密碼1-8字!" required>
+                                    <div class="valid-feedback">密碼輸入正確!</div>
+                                    <div class="invalid-feedback">密碼輸入錯誤!</div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="reg_re_password" class="form-label">確認密碼</label>
+                                    <input type="password" id="reg_re_password" name="reg_re_password"
+                                        class="form-control">
+                                    <div class="valid-feedback">密碼輸入相符!</div>
+                                    <div class="invalid-feedback">密碼輸入錯誤!</div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="reg_email" class="form-label">Email</label>
+                                    <input type="text" id="reg_email" name="reg_email" class="form-control"
+                                        placeholder="xxx@gmail.com!" required>
+                                    <div class="valid-feedback">email輸入正確!</div>
+                                    <div class="invalid-feedback">email輸入錯誤!</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" class="me-auto" data-bs-toggle="modal" data-bs-target="#loginModal">已經有帳號,
+                            登入去!!!</a>
+                        <button type="button" class="btn btn-secondary register_cls_btn"
+                            data-bs-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-primary" id="reg_btn">確認</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ***********************************輪播*********************************************** -->
+        <div class="row mt-5">
+            <div class="col">
+                <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active"
+                            aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1"
+                            aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2"
+                            aria-label="Slide 3"></button>
+                    </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active" data-bs-interval="2000">
+                            <img src="img/1.jpg" class="d-block w-100" height="500" alt="...">
+                            <div class="carousel-caption d-none d-md-block bg-danger">
+                                <h1 class="display-2">驚聲尖叫6</h1>
+                                <p class="display-6">3月10日，破解公式，戲院見</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item" data-bs-interval="2000">
+                            <img src="img/2.jpg" class="d-block w-100" height="500" alt="...">
+                            <div class="carousel-caption d-none d-md-block bg-info">
+                                <h5 class="display-2">捍衛任務4</h5>
+                                <p class="display-6">3月29日，連假首選，戲院見</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item" data-bs-interval="2000">
+                            <img src="img/3.jpg" class="d-block w-100" height="500" alt="...">
+                            <div class="carousel-caption d-none d-md-block bg-success">
+                                <h5 class="display-2">量子狂熱</h5>
+                                <p class="display-6">3月19日，火爆登場，戲院見</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- **********************slick************************** -->
+    <div class="bg-white" style="padding-bottom: 60px;">
+        <div class="container">
+            <div class="row" style="padding: 25px 15px 0px 15px;margin-top: 100px;">
+                <div class="col-5 ms-0 mt-3 mb-0">
+                    <button type="button" id="new-playing" class="btn btn-slick btn-outline-slick-hover">本月新片</button>
+                    <!-- <a href="#" id="now-playing" class="btn btn-outline-slick btn-outline-slick-hover">上映中</a> -->
+                </div>
+                <div class="col-3">
+
+                </div>
+                <div class="col-4 d-flex justify-content-end mt-3 mb-0">
+                    <div class="me-2"
+                        style="padding-top: 2.5px;text-align: center;box-shadow:0px 2px 3px 1px #cccccc;width: 30px;height: 30px;border-radius: 100%;">
+                        <a href="#" id="arrow-left"><i class="fa-solid fa-arrow-left btn-arrow"></i></a>
+                    </div>
+                    <div class="me-2"
+                        style="padding-top: 2.5px;text-align: center;box-shadow:0px 2px 3px 1px #cccccc;width: 30px;height: 30px;border-radius: 100%;">
+                        <a href="#" id="arrow-right"><i class=" fa-solid fa-arrow-right btn-arrow"></i></a>
+                    </div>
+                    <div class="text-center"
+                        style="line-height: 30px;box-shadow:0px 2px 3px 1px #cccccc;width: 110px;height: 30px;border-radius: 10%;">
+                        <a href="movie-release/movie_release.html" class="btn-arrow" style="text-decoration: none;">更多電影</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div class="slider slick-header" id="slick_rendering">
+                        <!-- <div class="rounded mt-3 ps-3">
+                <div class="card" style="width: 18rem;">
+                  <img src="leaderboard-img/1.jpg" height="285" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">1</h5>
+                    <p class="card-text text-truncate">
+                      十分妹妹，忽然加拿大新年步驟來說深刻是因為臺灣授權方式被人選項，可惜網際目錄到處接下來領域動漫位元新竹專欄日期文本支持願意，經營許可證道德品質相機是啊資訊，對我筆者不停美麗直接通常患者一邊又是資料支付服飾一句
+                    </p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                  </div>
+                </div>
+              </div>
+              <div class="rounded mt-3 ps-3">
+                <div class="card" style="width: 18rem;">
+                  <img src="https://picsum.photos/200/200" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">1</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the
+                      bulk
+                      of
+                      the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                  </div>
+                </div>
+              </div>
+              <div class="rounded mt-3 ps-3">
+                <div class="card" style="width: 18rem;">
+                  <img src="https://picsum.photos/200/200" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">1</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the
+                      bulk
+                      of
+                      the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                  </div>
+                </div>
+              </div>
+              <div class="rounded mt-3 ps-3">
+                <div class="card" style="width: 18rem;">
+                  <img src="https://picsum.photos/200/200" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">1</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the
+                      bulk
+                      of
+                      the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                  </div>
+                </div>
+              </div>
+              <div class="rounded mt-3 ps-3">
+                <div class="card" style="width: 18rem;">
+                  <img src="https://picsum.photos/200/200" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">1</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the
+                      bulk
+                      of
+                      the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                  </div>
+                </div>
+              </div>
+              <div class="rounded mt-3 ps-3">
+                <div class="card" style="width: 18rem;">
+                  <img src="https://picsum.photos/200/200" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">1</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the
+                      bulk
+                      of
+                      the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                  </div>
+                </div>
+              </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="movie_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-3" id="exampleModalLabel">電影介紹</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label for="movie_title" class="form-label">電影標題</label>
+                                <input type="text" class="form-control" id="movie_title" disabled>
+                            </div>
+                            <div class="mb-3">
+                                <label for="movie_release" class="form-label">上映日期</label>
+                                <input type="text" class="form-control" id="movie_release" disabled>
+                            </div>
+                            <div class="mb-3">
+                                <label for="movie_intro" class="form-label">電影簡介</label>
+                                <textarea class="form-control" id="movie_intro" style="height: 300px"
+                                    disabled></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="movie_director" class="form-label">導演</label>
+                                <input type="text" class="form-control" id="movie_director" disabled>
+                            </div>
+                            <div class="mb-3">
+                                <label for="movie_casting" class="form-label">演員</label>
+                                <textarea class="form-control" id="movie_casting" style="height: 100px" disabled></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="movie_genre" class="form-label">類型</label>
+                                <input type="text" class="form-control" id="movie_genre" disabled>
+                            </div>
+                            <div class="mb-3">
+                                <label for="movie_length" class="form-label">電影長度</label>
+                                <input type="text" class="form-control" id="movie_length" disabled>
+                            </div>
+                            <div class="mb-3">
+                                <label for="movie_awarding" class="form-label">得獎提名</label>
+                                <input type="text" class="form-control" id="movie_awarding" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- **********************footer************************** -->
+    <div class="container-fluid bg-light mt-5">
+        <div class="row offset-2">
+            <div class="col-md-1 mt-4">
+                <ul class="list-unstyled">
+                    <li>電影</li>
+                    <li class="mt-3"><a href="#" class="text-secondary footer-hover">本月新片</a></li>
+                    <li class="mt-3"><a href="#" class="text-secondary footer-hover">近期上映</a></li>
+                </ul>
+            </div>
+            <div class="col-md-1 mt-4" style="margin-left: 90px;">
+                <ul class="list-unstyled">
+                    <li>影城介紹</li>
+                    <li class="mt-3"><a href="#" class="text-secondary footer-hover">台中影城</a></li>
+                    <li class="mt-3"><a href="#" class="text-secondary footer-hover">台南影城</a></li>
+                    <li class="mt-3"><a href="#" class="text-secondary footer-hover">嘉義影城</a></li>
+                    <li class="mt-3"><a href="#" class="text-secondary footer-hover">澎湖影城</a></li>
+                </ul>
+            </div>
+            <div class="col-md-1 mt-4" style="margin-left: 90px;">
+                <ul class="list-unstyled">
+                    <li>會員專區</li>
+                    <li class="mt-3"><a href="#" class="text-secondary footer-hover">個人專區</a></li>
+                    <li class="mt-3"><a href="#" class="text-secondary footer-hover">我的票夾</a></li>
+                    <li class="mt-3"><a href="#" class="text-secondary footer-hover">會員權益</a></li>
+                </ul>
+            </div>
+            <div class="col-md-1 mt-4" style="margin-left: 90px;">
+                <ul class="list-unstyled">
+                    <li>消息/優惠</li>
+                    <li class="mt-3"><a href="#" class="text-secondary footer-hover">最新消息</a></li>
+                    <li class="mt-3"><a href="#" class="text-secondary footer-hover">信用卡優惠</a></li>
+                </ul>
+            </div>
+            <div class="col-md-1 mt-4" style="margin-left: 90px;">
+                <ul class="list-unstyled">
+                    <li>幫助中心</li>
+                    <li class="mt-3"><a href="#" class="text-secondary footer-hover">常見問題</a></li>
+                    <li class="mt-3"><a href="#" class="text-secondary footer-hover">聯絡我們</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/jquery-3.6.3.min.js"></script>
+    <script src="js/fontawesome.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
+    <script src="js/wow.min.js"></script>
+    <script>
+        var flag_check01;
+        var flag_username;
+        var flag_username_check;
+        var flag_password;
+        var flag_repassword;
+        var mv_title;
+        new WOW().init();
+
+        $(function () {
+
+            //wow.js滑動效果
+            $(window).bind("scroll",function(){
+                if($(window).scrollTop() >= 200){
+                    $(".wow").removeClass('animate');
+                    new WOW().init();
+                }
+            });
+
+            //slick渲染
+            $.ajax({
+                type: "get",
+                url: "movie_slick.php",
+                dataType: "json",
+                async: false,
+                success: showdata_slick,
+                error: function () {
+                    alert("error_movie_slick.php");
+                }
+            });
+
+            //slick_modal
+            $(".card #modal_btn").bind("click", function () {
+
+                let jsonData = {};
+                jsonData["id"] = $(this).data("id");
+                console.log(JSON.stringify(jsonData));
+
+                $.ajax({
+                    type: "post",
+                    url: "movie_slick_modal.php",
+                    dataType: "json",
+                    data: JSON.stringify(jsonData),
+                    success: showdata_slick_modal,
+                    error: function () {
+                        alert("error_movie_slick_modal.php");
+                    }
+                });
+            });
+
+
+            //取消按鈕註冊跟登入
+            $(".login_cls_btn").bind("click", function () {
+                $("#login_username").val("");
+                $("#login_password").val("");
+            });
+
+            $(".register_cls_btn").bind("click", function () {
+                $("#mem_check01").prop("checked", false);
+                $("#reg_username").val("");
+                $("#reg_password").val("");
+                $("#reg_re_password").val("");
+                $("#reg_email").val("");
+                $("#reg_username").removeClass("is-invalid");
+                $("#reg_username").removeClass("is-valid");
+                $("#reg_password").removeClass("is-invalid");
+                $("#reg_password").removeClass("is-valid");
+                $("#reg_re_password").removeClass("is-invalid");
+                $("#reg_re_password").removeClass("is-valid");
+
+            });
+
+            //利用cookie 判斷登入狀態
+            if (getCookie("UID01") != "" && getCookie("UID02") != "") {
+                //傳遞至後端驗證 UID 
+                var jsonData = {};
+                jsonData["uid01"] = getCookie("UID01");
+                jsonData["uid02"] = getCookie("UID02");
+                console.log(JSON.stringify(jsonData));
+
+                $.ajax({
+                    type: "POST",
+                    url: "moviemem_uid_check_api.php",
+                    data: JSON.stringify(jsonData),
+                    dataType: "json",
+                    success: showdata_uid_check,
+                    error: function () {
+                        alert("error-moviemem_uid_check_api.php");
+                    }
+                });
+            }
+
+            //登出按鈕s2_logout_btn監聽
+            $("#s2_logout_btn").bind("click", function () {
+                alert("登出成功");
+                setCookie("UID01", "", 7);
+                setCookie("UID02", "", 7);
+                location.href = "index.html";
+            });
+
+            //登入按鈕監聽
+            $("#login_btn").bind("click", function () {
+                var jsonData = {};
+                jsonData["username"] = $("#login_username").val();
+                jsonData["password"] = $("#login_password").val();
+                console.log(JSON.stringify(jsonData));
+                $.ajax({
+                    type: "POST",
+                    url: "moviemem_login_api.php",
+                    data: JSON.stringify(jsonData),
+                    dataType: "json",
+                    success: showdata_login,
+                    error: function () {
+                        alert("error-moviemem_login_api.php");
+                    }
+                });
+            });
+
+            //註冊按鈕監聽
+            $("#reg_btn").bind("click", function () {
+                if (flag_check01) {
+                    if (flag_password && flag_repassword && flag_username_check && flag_username) {
+                        var jsonData = {};
+                        jsonData["username"] = $("#reg_username").val();
+                        jsonData["password"] = $("#reg_password").val();
+                        jsonData["email"] = $("#reg_email").val();
+                        console.log(JSON.stringify(jsonData));
+                        $.ajax({
+                            type: "POST",
+                            url: "mem_reg_api.php",
+                            data: JSON.stringify(jsonData),
+                            dataType: "json",
+                            success: showdata_reg,
+                            error: function () {
+                                alert("error-mem_reg_api.php");
+                            }
+                        });
+                    } else {
+                        alert("欄位輸入不符規定, 請修正!");
+                    }
+                } else {
+                    alert("請勾選遵守會員守則!");
+                }
+            });
+            //帳號即時監聽
+            $("#reg_username").bind("input propertychange", function () {
+                if ($(this).val().length > 0 && $(this).val().length < 9) {
+                    //符合規則
+                    var jsonData = {};
+                    jsonData["username"] = $(this).val();
+                    console.log(JSON.stringify(jsonData));
+                    $.ajax({
+                        type: "POST",
+                        url: "moviemem_reg_check_one_api.php",
+                        dataType: "json",
+                        data: JSON.stringify(jsonData),
+                        success: showdata_check_one,
+                        error: function () {
+                            alert("error-moviemem_reg_check_one_api.php")
+                        }
+                    });
+                    $("#reg_valid-feedback").text("帳號輸入正確");
+                    $("#reg_username").removeClass("is-invalid");
+                    $("#reg_username").addClass("is-valid");
+                    flag_username = true;
+                } else {
+                    //不符合規則
+                    $("#reg_invalid-feedback").text("帳號輸入錯誤");
+                    $("#reg_username").removeClass("is-valid");
+                    $("#reg_username").addClass("is-invalid");
+                    flag_username = false;
+                }
+            });
+            //密碼即時監聽
+            $("#reg_password").bind("change", function () {
+                if ($(this).val().length > 0 && $(this).val().length < 9) {
+                    //符合規則
+                    $("#reg_password").removeClass("is-invalid");
+                    $("#reg_password").addClass("is-valid");
+                    flag_password = true;
+                } else {
+                    //不符合規則
+                    $("#reg_password").removeClass("is-valid");
+                    $("#reg_password").addClass("is-invalid");
+                    flag_password = false;
+                }
+            });
+            //確認密碼即時監聽
+            $("#reg_re_password").bind("change", function () {
+                console.log("test");
+                if ($(this).val() == $("#reg_password").val()) {
+                    //密碼確認一致
+                    $("#reg_re_password").removeClass("is-invalid");
+                    $("#reg_re_password").addClass("is-valid");
+                    flag_repassword = true;
+                } else {
+                    $("#reg_re_password").removeClass("is-valid");
+                    $("#reg_re_password").addClass("is-invalid");
+                    flag_repassword = false;
+                }
+            });
+
+            //會員守則 即時監聽
+            $("#mem_check01").bind("input propertychange", function () {
+                var check01 = [];
+                $.each($("input[name='mem_check01']:checked"), function () {
+                    check01.push($(this).val());
+                });
+                console.log(check01);
+                if (check01.length == 1) {
+                    console.log("遵守!");
+                    flag_check01 = true;
+                } else {
+                    console.log("不遵守!");
+                    flag_check01 = false;
+                }
+            });
+
+            //本月新片按鈕
+            // $("#new-playing").bind("click", function () {
+            //     $("#new-playing").addClass("btn-slick");
+            //     $("#now-playing").removeClass("btn-slick");
+
+            // });
+
+            //上映中按鈕
+            // $("#now-playing").bind("click", function () {
+            //     $("#new-playing").removeClass("btn-slick");
+            //     $("#new-playing").addClass("btn-outline-slick");
+            //     $("#now-playing").addClass("btn-slick");
+            // });
+
+
+
+            $(".slick-header").slick({
+                prevArrow: $("#arrow-left"),
+                nextArrow: $("#arrow-right"),
+                arrows: true,
+                infinite: false,
+                speed: 500,
+                slidesToShow: 4,
+                slidesToScroll: 4,
+                responsive: [{
+                    breakpoint: 1024,
+                    settings: {
+                        slidesToShow: 3,
+                        slidesToScroll: 3,
+                        infinite: false
+                    }
+                }, {
+                    breakpoint: 600,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 2,
+                        infinite: false
+                    }
+                }, {
+                    breakpoint: 480,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                        infinite: false
+                    }
+                }
+
+                ]
+            });
+
+        });
+
+        function showdata_reg(data) {
+            console.log(data);
+            if (data.state) {
+                alert(data.message);
+                location.href = "index.html"
+            } else {
+                alert(data.message);
+            }
+        }
+
+        function showdata_check_one(data) {
+            console.log(data);
+            if (data.state) {
+                //該帳號不存在, 帳號可以使用!
+                $("#reg_valid-feedback").text("該帳號不存在, 帳號可以使用!");
+                $("#reg_username").removeClass("is-invalid");
+                $("#reg_username").addClass("is-valid");
+                flag_username_check = true;
+            } else {
+                //該帳號已存在, 帳號不可以使用!
+                $("#reg_invalid-feedback").text("該帳號已存在, 帳號不可以使用!");
+                $("#reg_username").removeClass("is-valid");
+                $("#reg_username").addClass("is-invalid");
+                flag_username_check = false;
+            }
+        }
+
+        function showdata_login(data) {
+            console.log(data);
+            if (data.state) {
+                new WOW().init();
+                console.log(data.data[0].UserState);
+                console.log(data.data[0].UID01);
+                //將UID寫入cookie
+                setCookie("UID01", data.data[0].UID01, 7);
+                setCookie("UID02", data.data[0].UID02, 7);
+
+                //顯示會員帳號相關訊息
+                $("#login_member").text(data.data[0].Username + "會員您好!");
+                $("#member-icon").show();
+
+                //隱藏登入與註冊按鈕
+                $("#s2_login_btn").hide();
+                $("#s2_reg_btn").hide();
+                $("#s2_logout_btn").show();
+
+                //顯示會員vip功能選單
+
+                $("#link_control03").show();
+
+                if (data.data[0].UserState == "y") {
+                    alert(data.message);
+                } else {
+                    alert("帳號已被停權!");
+                    $("#link_control03").hide();
+                }
+            } else {
+                alert(data.message);
+            }
+        }
+
+        function showdata_uid_check(data) {
+            console.log(data);
+            if (data.state) {
+                //UID驗證合法
+                //顯示會員帳號相關訊息
+                $("#login_member").text(data.data[0].Username + "會員您好!");
+                $("#member-icon").show();
+
+                //隱藏登入與註冊按鈕
+                $("#s2_login_btn").hide();
+                $("#s2_reg_btn").hide();
+                $("#s2_logout_btn").show();
+
+                //顯示會員vip功能選單
+
+                $("#link_control03").show();
+
+                if (data.data[0].UserState == "y") {
+                    $("#toilet").show();
+                    $("#link_control").show();
+                } else {
+                    alert("帳號已被停權!");
+                    $("#link_control03").hide();
+                }
+            }
+        }
+
+        function showdata_slick(data) {
+            data.data.forEach(function (item) {
+                let slick_poster = item.Mv_poster.split(",");
+                
+                let slick_render =
+                    ` 
+                      <div class="rounded mt-3 ps-3">
+                       <div class="card" style="width: 18rem;">
+                         <img src="img/${slick_poster[0]}" height="285" class="card-img-top" alt="...">
+                         <div class="card-body">
+                           <h5 class="card-title">${item.Mv_title}</h5>
+                           <p class="card-text text-truncate">
+                             ${item.Mv_intro}
+                           </p>
+                           <a href="#" class="btn btn-primary" id="modal_btn" data-id="${item.ID}" data-bs-toggle="modal" data-bs-target="#movie_modal">電影介紹</a>
+                         </div>
+                       </div>
+                      </div>
+                    `;
+
+                $("#slick_rendering").append(slick_render);
+            });
+
+        }
+
+
+        function showdata_slick_modal(data) {
+            if (data.state) {
+                let mv_casting = data.data[0].Mv_casting.split("，").join("\n");
+                $("#movie_title").val(data.data[0].Mv_title);
+                $("#movie_release").val(data.data[0].Mv_release);
+                $("#movie_intro").text(data.data[0].Mv_intro);
+                $("#movie_director").val(data.data[0].Mv_director);
+                $("#movie_casting").text(mv_casting);
+                $("#movie_genre").val(data.data[0].Mv_genre);
+                $("#movie_length").val(data.data[0].Mv_length);
+                $("#movie_awarding").val(data.data[0].Mv_awarding);
+
+            } else {
+                alert(data.message);
+            }
+        }
+
+        //form w3c
+        function setCookie(cname, cvalue, exdays) {
+            const d = new Date();
+            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+            let expires = "expires=" + d.toUTCString();
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        }
+
+        function getCookie(cname) {
+            let name = cname + "=";
+            let decodedCookie = decodeURIComponent(document.cookie);
+            let ca = decodedCookie.split(';');
+            for (let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>公廁地圖</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/myall.css">
+    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+        integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+    <link rel="stylesheet" href="css/MarkerCluster.css">
+    <link rel="stylesheet" href="css/fontawesome.min.css">
+    <style>
+        #listData {
+            height: 83vh;
+            overflow: scroll;
+            /*scroll:滾輪*/
+        }
+
+        .marker-cluster-small {
+            background-color: rgba(204, 183, 251, 0.6);
+        }
+
+        .marker-cluster-small div {
+            background-color: rgba(132, 89, 232, 0.6);
+        }
+
+        .marker-cluster-medium {
+            background-color: rgba(240, 211, 116, 0.6);
+        }
+
+        .marker-cluster-medium div {
+            background-color: rgba(246, 223, 23, 0.6);
+        }
+
+        .marker-cluster-large {
+            background-color: rgba(152, 153, 235, 0.6);
+        }
+
+        .marker-cluster-large div {
+            background-color: rgba(31, 31, 242, 0.6);
+        }
+
+        .marker-cluster div {
+            width: 30px;
+            height: 30px;
+            margin-left: 5px;
+            margin-top: 5px;
+
+            text-align: center;
+            border-radius: 15px;
+            font: 12px "Helvetica Neue", Arial, Helvetica, sans-serif;
+        }
+
+        .marker-cluster span {
+            line-height: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3 vh-100 p-3">
+                <select class="form-select form-select-lg my-3" aria-label=".form-select-lg example" id="myCityName">
+                    <option disabled selected>----縣市----</option>
+                    <option value="台北市">台北市</option>
+                    <option value="台中市">台中市</option>
+                </select>
+                <select class="form-select form-select-lg my-3" aria-label=".form-select-lg example" id="myArea">
+                    <option disabled selected>---鄉鎮區---</option>
+                    <option value="西屯區">西屯區</option>
+                    <option value="北屯區">北屯區</option>
+                </select>
+                <ul class="list-group" id="listData">
+                    <li class="list-group-item">
+                        <div class="fs-3 fw-500">XX廁所</div>
+                        <div class="fs-5">
+                            <i class="fa-solid fa-earth-americas text-primary me-2"></i>
+                            地址: XXXX
+                        </div>
+                        <div class="fs-5">
+                            <i class="fa-solid fa-toilet text-primary me-2"></i></i>
+                            種類: XXXXX
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-9 bg-info">
+                <div id="login_member"></div>
+                <button type="button" class="btn btn-secondary" id="logout_btn">登出</button>
+                <div id="map" class="vh-100"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/jquery-3.6.3.min.js"></script>
+    <script src="js/check_member_state.js"></script>
+    <script src="js/CityCountyData.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+        integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+    <script src="js/leaflet.markercluster.js"></script>
+    <script src="js/leaflet-color-markers.js"></script>
+    <script src="js/fontawesome.min.js"></script>
+</body>
+<script>
+    var selectCity; //儲存所選取的縣市名稱
+    var selectArea; //儲存所選取的鄉鎮區名稱
+    var selectAreaList = []; //儲存所選取縣市的鄉鎮區資料
+    var toiletData; //儲存公廁統計資料
+
+    var map;
+
+    $(function () {
+        //確認會員狀態
+        //check_member_state();
+
+        //畫地圖TCNR
+        map = L.map('map').setView([25.03475100000000000, 121.52153400000000000], 13);
+
+        //圖層放入
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        //**************使用markerClusterGroup**************
+        var markers = new L.markerClusterGroup().addTo(map);
+
+
+        //一開啟系統所在地點(預設)
+        // var strHTML01 = '<div class="card"><div class="card-body"><img src="images/1.jpg" class="card-img-top" alt=""><div class="fs-2">XX公廁</div><div class="fs-2">地址: XXX</div><div class="fs-2">種類: XXXX</div></div></div>';
+        // L.marker([25.03475100000000000, 121.52153400000000000]).addTo(map).bindPopup(strHTML01);
+
+
+        //取得使用者座標位置並標示出marker
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+            console.log(navigator.geolocation);
+        } else {
+            console.log("Geolocation is not supported by this browser.");
+        }
+
+
+        //載入公廁統計資料 使用網址
+        $.ajax({
+            type: "GET",
+            url: "https://data.epa.gov.tw/api/v2/fac_p_07?api_key=e8dd42e6-9b8b-43f8-991e-b3dee723a52d&limit=1000&sort=ImportDate%20desc&format=JSON",
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                toiletData = data.records;
+            },
+            error: function () {
+                alert("error-https://data.epa.gov.tw/api/v2/fac_p_07?api_key=e8dd42e6-9b8b-43f8-991e-b3dee723a52d&limit=1000&sort=ImportDate%20desc&format=JSON");
+            }
+        });
+        console.log(toiletData);
+
+        console.log(city);
+
+        //渲染縣市選單
+        $("#myCityName").empty();
+        $("#myCityName").append('<option disabled selected>----縣市----</option>');
+        city.forEach(function (item) {
+            console.log(item.CityName)
+            var strHTML = '<option value="' + item.CityName + '">' + item.CityName + '</option>';
+            $("#myCityName").append(strHTML);
+        });
+
+        //監聽 #myCityName 取得所選取的縣市名稱
+        $("#myCityName").change(function () {
+            console.log($(this).val());
+            selectCity = $(this).val();
+
+            //取得該縣市的  鄉鎮區資料(AreaList)
+            city.find(function (item) {
+                if (item.CityName == selectCity) {
+                    selectAreaList = item.AreaList;
+                }
+            });
+            //console.log(selectAreaList);
+
+            //渲染鄉鎮區選單
+            $("#myArea").empty();
+            $("#myArea").append('<option disabled selected>---鄉鎮區---</option>');
+            selectAreaList.forEach(function (item) {
+                var strHTML = '<option value="' + item.AreaName + '">' + item.AreaName + '</option>';
+                $("#myArea").append(strHTML);
+            });
+        });
+
+        //監聽 #myArea 取得所選取的鄉鎮區名稱
+        $("#myArea").change(function () {
+            //console.log($(this).val());
+            selectArea = $(this).val();
+
+            //console.log(selectCity + selectArea);
+
+            //篩選已決定的縣市鄉鎮區 的 公廁 county和city是公廁的json檔案 city和area是地圖檔案
+            var listData = []; //收集篩選後的公廁資料
+            toiletData.forEach(function (item) {
+                if (item.country == selectCity && item.city == selectArea) {
+                    // console.log(item);
+                    listData.push(item);
+                }
+            });
+            console.log(listData);
+
+            //渲染公廁list-group
+            $("#listData").empty();
+            removeMarker();
+
+            listData.forEach(function (item, key) {
+                var strHTML = '<li class="list-group-item" data-name="' + item.name + '" data-address="' + item.address + '" data-type2="' + item.type2 + '" data-latitude="' + item.latitude + '" data-longitude="' + item.longitude + '"><div class="fs-3 fw-500">' + item.name + '</div><div class="fs-5"><i class="fa-solid fa-map-location-dot text-primary me-2"></i>地址: ' + item.address + '</div><div class="fs-5"><i class="fa-solid fa-phone text-danger me-2"></i>種類: ' + item.type2 + '</div></div></div>';
+                $("#listData").append(strHTML);
+
+                //console.log(item.geometry.coordinates[1]); //經度
+                //console.log(item.geometry.coordinates[0]); //緯度
+                var lat = item.latitude; //經度  "注意容易寫反"
+                var lng = item.longitude; //緯度
+
+                var strHTML01 = '<div class="card"><div class="card-header fs-2 text-bg-primary">' + item.name + '</div><div class="card-body"><div class="fs-4">地址: ' + item.address + '</div><div class="fs-4">種類: ' + item.type2 + '</div></div>';
+                //原本寫法L.marker([lat, lng]).addTo(map).bindPopup(strHTML01);
+
+                //**************使用markerClusterGroup**************
+                //改寫成這個 算資料 可以得知這個地方大範圍有幾個(數字)  , {icon: greenIcon}:更改標籤的顏色
+                markers.addLayer(L.marker([lat, lng], { icon: greenIcon }).bindPopup(strHTML01));
+
+
+
+                console.log(key);
+                //將地圖移動到第一筆資料
+                if (key == 0) {
+                    map.panTo([lat, lng]);
+                }
+            });
+
+            //hover監聽list-group-item  觸發marker popup 事件 
+            $("#listData .list-group-item").hover(function () {
+                //印出 隱藏的7個參數 name address type2 latitude longitude 是公廁的json
+                console.log($(this).data("name"));
+                console.log($(this).data("address"));
+                console.log($(this).data("type2"));
+                console.log($(this).data("latitude"));
+                console.log($(this).data("longitude"));
+                markerPopup($(this).data("name"), $(this).data("address"), $(this).data("type2"), $(this).data("latitude"), $(this).data("longitude"));
+            });
+        });
+    });
+
+    //清除"所有"marker的圖層
+    function removeMarker() {
+        map.eachLayer(function (layer) {
+            if (layer instanceof L.Marker) {
+                map.removeLayer(layer)
+            }
+        });
+    }
+
+    //一選擇到縣市和鄉鎮區時 可以出現第一間公廁資訊在右邊地圖的水滴上面 左右邊的資訊同一
+    function markerPopup(name, address, type2, lat, lng) {
+        console.log(name + address + type2 + lat + lng);
+        var popupHTML = '<div class="card"><div class="card-header fs-2 text-bg-primary">' + name + '</div><div class="card-body"><div class="fs-4">地址: ' + address + '</div><div class="fs-4">種類: ' + type2 + '</div></div></div>';
+        L.marker([lat, lng]).addTo(map).bindPopup(popupHTML).openPopup();
+    }
+
+    //傳送瀏覽器的目前ip位置
+    function showPosition(position) {
+        console.log(position);
+        var lat = position.coords.latitude;
+        var lng = position.coords.longitude;
+        map.panTo([lat, lng]);
+        L.marker([lat, lng]).addTo(map).bindPopup('<h1>我的位置!</h1>').openPopup();
+    }
+</script>
+
+</html>

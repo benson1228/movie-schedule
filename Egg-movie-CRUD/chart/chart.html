@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>圖表</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/allcolor.css">
+    <link rel="stylesheet" href="../css/fontawesome.min.css">
+    <link rel="stylesheet" href="../css/wow.animate.min.css">
+    <style>
+        .box {
+            height: 1550px;
+            border-right: 2px solid var(--color28);
+            padding: 0 15px 0 15px;
+            background-color: var(--color10);
+        }
+        
+        .li-bg {
+            background-color: var(--color2);
+        }
+        
+        .li-bg a {
+            text-decoration: none;
+            color: #000;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="row w-100">
+        <div class="col-2 bg-light">
+            <div class="box">
+                <ul class="list-unstyled list-group pt-5">
+
+                    <li class=" list-group-item btn li-bg btn-danger  d-block border border-2 border-dark mb-1">
+                        <a href="../member/mem_R.html">會員</a>
+                    </li>
+
+                    <li class=" list-group-item btn li-bg  btn-danger d-block border border-2 border-dark mb-1">
+                        <a href="../create.html">新增電影</a>
+                    </li>
+
+                    <li class=" list-group-item btn li-bg  btn-danger d-block border border-2 border-dark mb-1"> <a href="../read_list.html">電影清單</a>
+                    </li>
+                    <li class=" list-group-item btn li-bg  btn-danger d-block border border-2 border-dark mb-1"> <a href="chart.html">圖表</a>
+                    </li>
+
+                    <li class=" list-group-item btn li-bg  btn-danger d-block border border-2 border-dark mt-5">
+                        <a href="../read_list.html"> 回首頁</a>
+                    </li>
+
+                    <li class=" list-group-item btn li-bg  btn-danger d-block border border-2 border-dark" style="margin-top: 300px;">
+                        <a href="../member/index.html" id="btn_logout">登出</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-10 bg-light">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-3 mt-3">
+                        <div class="card h-100">
+                            <div class="card-body d-flex align-items-center">
+                                <i class="fa-regular fa-money-bill-1 fa-6x"></i>
+                                <div class="text-center w-100">
+                                    <div class="fs-3">影片總數</div>
+                                    <div class="fs-1" id="movie_num">10,000</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mt-3">
+                        <div class="card h-100">
+                            <div class="card-body d-flex align-items-center">
+                                <i class="fa-solid fa-user fa-6x"></i>
+                                <div class="text-center w-100">
+                                    <div class="fs-3">會員總數</div>
+                                    <div class="fs-1" id="total_member">10,000</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mt-3">
+                        <div class="card h-100">
+                            <div class="card-body d-flex align-items-center">
+                                <i class="fa-solid fa-user fa-6x text-success"></i>
+                                <div class="text-center w-100">
+                                    <div class="fs-4">啟用人數</div>
+                                    <div class="fs-2" id="userState_y">10,000</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mt-3">
+                        <div class="card h-100">
+                            <div class="card-body d-flex align-items-center">
+                                <i class="fa-solid fa-user fa-6x text-danger"></i>
+                                <div class="text-center w-100">
+                                    <div class="fs-4">停權人數</div>
+                                    <div class="fs-2" id="userState_n">10,000</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mt-3">
+                        <div class="card h-100">
+                            <div class="card-header text-bg-danger text-center">
+                                電影導演總數(圓餅圖)
+                            </div>
+                            <div class="card-body">
+                                <canvas id="Chart-director"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mt-3">
+                        <div class="card h-100">
+                            <div class="card-header text-bg-danger text-center">
+                                上映電影總數(月份)
+                            </div>
+                            <div class="card-body">
+                                <canvas id="Chart-release"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 mt-3">
+                        <div class="card">
+                            <div class="card-header text-bg-danger text-center">
+                                電影導演總數(條狀圖)
+                            </div>
+                            <div class="card-body">
+                                <canvas id="Chart-bar"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/fontawesome.min.js"></script>
+    <script src="../js/jquery-3.6.3.min.js"></script>
+    <script src="../js/wow.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var chart_release;
+        var chart_director;
+        var chart_bar;
+        $(function() {
+            const release = $('#Chart-release');
+
+            chart_release = new Chart(release, {
+                type: 'line',
+                data: {
+                    datasets: [{
+                        label: '電影總數',
+                        labels: [],
+                        data: [],
+                        borderWidth: 3,
+                        fill: true,
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1,
+                        backgroundColor: [
+                            'rgba(255, 194, 195, 0.5)',
+                        ],
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                        },
+
+                    }
+                },
+            });
+
+            const director = $('#Chart-director');
+
+            chart_director = new Chart(director, {
+                type: 'polarArea',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        data: [],
+                        backgroundColor: [
+                            'rgba(220, 20, 60, 0.4)',
+                            'rgba(250, 128, 128, 0.4)',
+                            'rgba(139, 0, 0, 0.4)',
+                            'rgba(255, 20, 147, 0.4)',
+                            'rgba(255, 127, 80, 0.4)',
+                            'rgba(255, 69, 0, 0.4)',
+                            'rgba(184, 134, 11, 0.4)',
+                            'rgba(192, 168, 170, 0.4)',
+                            'rgba(0, 0, 205, 0.4)',
+                            'rgba(0, 128, 0, 0.4)',
+                            'rgba(0, 20, 60, 0.4)',
+                            'rgba(10, 128, 128, 0.4)',
+                            'rgba(29, 0, 0, 0.4)',
+                            'rgba(35, 20, 147, 0.4)',
+                            'rgba(45, 127, 80, 0.4)',
+                            'rgba(55, 69, 0, 0.4)',
+                            'rgba(64, 134, 11, 0.4)',
+                            'rgba(128, 0, 0, 0.4)',
+                            'rgba(80, 0, 205, 0.4)',
+                            'rgba(90, 128, 0, 0.4)',
+
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                    }
+                },
+            });
+
+            const mv_bar = $("#Chart-bar");
+
+            chart_bar = new Chart(mv_bar, {
+                type: 'bar',
+                data: {
+                    datasets: [{
+                        label: '電影片名總數',
+                        labels: [],
+                        data: [],
+                        borderWidth: 0,
+                        borderColor: 'rgb(255, 255, 240)',
+                        backgroundColor: [
+                            'rgba(220, 20, 60, 0.4)',
+                            'rgba(250, 128, 128, 0.4)',
+                            'rgba(139, 0, 0, 0.4)',
+                            'rgba(255, 20, 147, 0.4)',
+                            'rgba(255, 127, 80, 0.4)',
+                            'rgba(255, 69, 0, 0.4)',
+                            'rgba(184, 134, 11, 0.4)',
+                            'rgba(192, 168, 170, 0.4)',
+                            'rgba(0, 0, 205, 0.4)',
+                            'rgba(0, 128, 0, 0.4)',
+                            'rgba(0, 20, 60, 0.4)',
+                            'rgba(10, 128, 128, 0.4)',
+                            'rgba(29, 0, 0, 0.4)',
+                            'rgba(35, 20, 147, 0.4)',
+                            'rgba(45, 127, 80, 0.4)',
+                            'rgba(55, 69, 0, 0.4)',
+                            'rgba(64, 134, 11, 0.4)',
+                            'rgba(128, 0, 0, 0.4)',
+                            'rgba(80, 0, 205, 0.4)',
+                            'rgba(90, 128, 0, 0.4)',
+                        ],
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                        },
+
+                    }
+                },
+            });
+
+            $.ajax({
+                type: "get",
+                url: "movie_release.php",
+                dataType: "json",
+                async: false,
+                success: showdata_release,
+                error: function() {
+                    alert("error_movie_release.php");
+                }
+            });
+
+            $.ajax({
+                type: "get",
+                url: "movie_director.php",
+                dataType: "json",
+                async: false,
+                success: showdata_director,
+                error: function() {
+                    alert("error_movie_director.php");
+                }
+
+            });
+
+            $.ajax({
+                type: "get",
+                url: "movie_num.php",
+                dataType: "json",
+                async: false,
+                success: showdata_movie_num,
+                error: function() {
+                    alert("error_movie.num.php");
+                }
+            });
+
+            $.ajax({
+                type: "get",
+                url: "member_num.php",
+                dataType: "json",
+                async: false,
+                success: showdata_mem_num,
+                error: function() {
+                    alert("error_member_num.php");
+                }
+            });
+
+            $.ajax({
+                type: "get",
+                url: "member_state.php",
+                dataType: "json",
+                async: false,
+                success: showdata_mem_state,
+                error: function() {
+                    alert("error_member_state.php");
+                }
+            })
+
+        });
+
+
+        function showdata_movie_num(data) {
+            $("#movie_num").text(data.data[0].num);
+        }
+
+        function showdata_mem_num(data) {
+            $("#total_member").text(data.data[0].num);
+        }
+
+        function showdata_mem_state(data) {
+            if (data.data.length == 1) {
+                if (data.data[0].UserState != undefined && data.data[0].UserState != 'n') {
+                    $("#userState_y").text(data.data[0].num);
+                    $("#userState_n").text(0);
+                } else {
+                    $("#userState_y").text(0);
+                    $("#userState_n").text(data.data[0].num);
+                }
+
+            } else {
+                $("#userState_y").text(data.data[1].num);
+                $("#userState_n").text(data.data[0].num);
+            }
+        }
+
+        function showdata_release(data) {
+            data.data.forEach(function(item) {
+                let release = item.Mv_release.split("");
+                chart_release.data.labels.push(release[5] + release[6] + "月");
+                chart_release.data.datasets[0].data.push(item.num);
+
+            });
+            chart_release.update();
+        }
+
+        function showdata_director(data) {
+            console.log(data);
+            data.data.forEach(function(item, key) {
+                chart_director.data.labels.push(item.Mv_director);
+                chart_director.data.datasets[0].data.push(item.num);
+                chart_bar.data.labels.push(item.Mv_director);
+                chart_bar.data.datasets[0].data.push(item.num);
+
+            });
+            chart_director.update();
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>

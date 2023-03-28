@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新增電影表單</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/allcolor.css">
+    <link rel="stylesheet" href="../css/fontawesome.min.css">
+    <link rel="stylesheet" href="../css/wow.animate.min.css">
+</head>
+<style>
+    .box {
+        height: 980px;
+        border-right: 2px solid var(--color28);
+        padding: 0 15px 0 15px;
+        background-color: var(--color10);
+    }
+    
+    .li-bg {
+        background-color: var(--color2);
+    }
+    
+    .li-bg a {
+        text-decoration: none;
+        color: #000;
+    }
+</style>
+
+<body>
+
+    <div class="row w-100 vh-100">
+        <div class="col-2 bg-light">
+            <div class="box">
+                <ul class="list-unstyled list-group pt-5">
+
+                    <li class=" list-group-item btn li-bg btn-danger  d-block border border-2 border-dark mb-1">
+                        <a href="mem_R.html">會員</a>
+                    </li>
+
+                    <li class=" list-group-item btn li-bg  btn-danger d-block border border-2 border-dark mb-1">
+                        <a href="../create.html">新增電影</a>
+                    </li>
+
+                    <li class=" list-group-item btn li-bg  btn-danger d-block border border-2 border-dark mb-1"> <a href="../read_list.html"> 電影清單</a>
+                    </li>
+                    <li class=" list-group-item btn li-bg  btn-danger d-block border border-2 border-dark mb-1"> <a href="../chart/chart.html">圖表</a>
+                    </li>
+
+                    <li class=" list-group-item btn li-bg  btn-danger d-block border border-2 border-dark mt-5">
+                        <a href="../read_list.html"> 回首頁</a>
+                    </li>
+                    <li class=" list-group-item btn li-bg  btn-danger d-block border border-2 border-dark" style="margin-top: 300px;">
+                        <a href="index.html" class="btn_logout">登出</a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+        <div class="col-10 bg-light">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">編號</th>
+                        <th scope="col">會員等級</th>
+                        <th scope="col">帳號</th>
+                        <th scope="col">信箱</th>
+                        <th scope="col">狀態</th>
+                        <th scope="col">功能</th>
+                        <th scope="col">創立時間</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                    <tr>
+                        <th scope="row">id</th>
+                        <td>
+                            一般會員
+                        </td>
+                        <td>Username</td>
+                        <td>Email</td>
+                        <td>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="switch" checked>
+                                <label class="form-check-label" for="switch">啟用</label>
+                            </div>
+
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mem_update">
+                                更新
+                            </button>
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#mem_password">
+                                更改密碼
+                            </button>
+                        </td>
+                        <td>created_at</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Modal_other -->
+            <div class="modal fade" id="mem_modal_update" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="exampleModalLabel">會員更新</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <h5>會員等級</h5>
+                            <select id="select" class="form-select w-50" aria-label="Default select example">
+                                <option id="a" value="一般會員">一般會員</option>
+                                <option value="管理員">管理員</option>
+                            </select>
+                            <label class="form-label fs-5 mt-3" for="username">帳號</label>
+                            <input class="form-control" type="text" name="username" id="username" disabled>
+                            <label class="form-label fs-5 mt-3" for="email">信箱</label>
+                            <input class="form-control" type="email" name="email" id="email">
+                        </div>
+                        <div class="modal-footer d-flex justify-content-around">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">取消</button>
+                            <button type="button" id="btn_modal_update" class="btn btn-warning">確認更新</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal_password -->
+            <div class="modal fade" id="mem_modal_password" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="exampleModalLabel">會員密碼更新</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <label class="form-label fs-5" for="password">新密碼</label>
+                            <input class="form-control" type="password" name="password" id="password">
+                            <label class="form-label fs-5" for="ok_password">確認密碼</label>
+                            <input class="form-control" type="password" name="ok_password" id="ok_password">
+                        </div>
+                        <div class="modal-footer d-flex justify-content-around">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">取消</button>
+                            <button type="button" id="btn_modal_password" class="btn btn-primary">密碼更新</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/fontawesome.min.js"></script>
+    <script src="../js/jquery-3.6.3.min.js"></script>
+    <script src="../js/wow.min.js"></script>
+    <script>
+        let id;
+        let mem_password_id;
+        $(function() {
+            //登出
+            $(".btn_logout").bind("click", function() {
+                alert("登出成功");
+            });
+
+            //渲染畫面
+            $.ajax({
+                type: 'get',
+                url: "mem_R_api.php",
+                dataType: "json",
+                async: false,
+                success: showdata,
+                error: function() {
+                    alert("error_mem_R_api.php");
+                }
+            });
+
+            //switch
+            $("#tbody #switch").bind("input propertychange", function() {
+                if ($(this).is(":checked")) {
+                    $(this).next().text("啟用");
+                    $(this).next().css("color", "green");
+                    switch01 = "y";
+                } else {
+                    $(this).next().text("停權");
+                    $(this).next().css("color", "red");
+                    switch01 = "n";
+                }
+
+                let jsonData = {};
+                jsonData["id"] = $(this).data("id");
+                jsonData["userstate"] = switch01;
+                console.log(JSON.stringify(jsonData));
+
+                $.ajax({
+                    type: "post",
+                    url: "mem_U_userState_api.php",
+                    dataType: "json",
+                    data: JSON.stringify(jsonData),
+                    success: showdata_userstate,
+                    error: function() {
+                        alert("error_mem_U_userState_api.php");
+                    }
+
+                });
+            });
+
+            //update
+            $("#tbody #mem_update").bind("click", function() {
+                id = $(this).data("id");
+                grade = $(this).data("grade");
+                grade = grade.split(" ");
+                $("#select").val(grade);
+                $("#username").val($(this).data("username"));
+                $("#email").val($(this).data("email"));
+            });
+            //update_modal
+            $("#btn_modal_update").bind("click", function() {
+                if (confirm("確定更新編號：" + id + " ?")) {
+                    let jsonData = {};
+                    jsonData["id"] = id;
+                    jsonData["grade"] = $("#select").val();
+                    jsonData["email"] = $("#email").val();
+                    console.log(JSON.stringify(jsonData));
+
+                    $.ajax({
+                        type: "post",
+                        url: "mem_U_api.php",
+                        dataType: "json",
+                        data: JSON.stringify(jsonData),
+                        success: showdata_modal_update,
+                        error: function() {
+                            alert("error_mem_U_api.php");
+                        }
+                    });
+                }
+
+            });
+
+            //update_password
+            $("#tbody #mem_update_password").bind("click", function() {
+                mem_password_id = $(this).data("id");
+            });
+
+            $("#btn_modal_password").bind("click", function() {
+                if (confirm("確定更改密碼:" + mem_password_id + "?")) {
+                    if ($("#password").val() == $("#ok_password").val()) {
+                        let jsonData = {};
+                        jsonData["id"] = mem_password_id;
+                        jsonData["password"] = $("#password").val();
+                        console.log(JSON.stringify(jsonData));
+
+                        $.ajax({
+                            type: "post",
+                            url: "mem_U_password_api.php",
+                            dataType: "json",
+                            data: JSON.stringify(jsonData),
+                            success: showdata_update_password,
+                            error: function() {
+                                alert("error_mem_U_password_api.php");
+                            }
+                        })
+                    } else {
+                        alert("密碼不相符");
+                    }
+                }
+
+            });
+
+        });
+
+        function showdata(data) {
+            if (data.state) {
+                $("#tbody").empty();
+                data.data.forEach(function(item) {
+                    if (item.UserState == "y") {
+                        UserState01 = `
+                        <div class="form-check form-switch">
+                                <input class="form-check-input" data-id="${item.ID}" type="checkbox" role="switch" id="switch" checked>
+                                <label class="form-check-label" for="switch" style="color:green">啟用</label>
+                        </div>`;
+                    } else {
+                        UserState01 = `
+                        <div class="form-check form-switch">
+                                <input class="form-check-input" data-id="${item.ID}" type="checkbox" role="switch" id="switch">
+                                <label class="form-check-label" for="switch" style="color:red">停權</label>
+                        </div>`;
+
+                    }
+
+
+                    let strHTML = `
+                    <tr>
+                        <th scope="row">${item.ID}</th>
+                        <td>
+                            ${item.Mem_grade}
+                        </td>
+                        <td>${item.Username}</td>
+                        <td>${item.Email}</td>
+                        <td>
+                            ${UserState01}
+                        </td>
+                        <td>
+                            <button type="button" data-id="${item.ID}" data-grade="${item.Mem_grade}" data-username="${item.Username}" data-email="${item.Email}" id="mem_update" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mem_modal_update">
+                                更新
+                            </button>
+                            <button type="button" id="mem_update_password" data-id="${item.ID}" class="btn btn-danger" data-bs-toggle="modal"
+                                data-bs-target="#mem_modal_password">
+                                更改密碼
+                            </button>
+                        </td>
+                        <td>${item.Created_at}</td>
+                    </tr>`;
+
+                    $("#tbody").append(strHTML);
+                });
+            } else {
+                alert(data.message);
+            }
+        }
+
+        function showdata_userstate(data) {
+            if (data.state) {
+                alert(data.message);
+            } else {
+                alert(data.message);
+            }
+        }
+
+        function showdata_modal_update(data) {
+            if (data.state) {
+                alert(data.message);
+                location.href = "mem_R.html";
+            } else {
+                alert(data.message);
+                location.href = "mem_R.html";
+            }
+        }
+
+        function showdata_update_password(data) {
+            if (data.state) {
+                alert(data.message);
+                location.href = "mem_R.html";
+            } else {
+                alert(data.message);
+                location.href = "mem_R.html";
+            }
+        }
+    </script>
+</body>
+
+</html>

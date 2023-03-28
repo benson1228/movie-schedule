@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理員登入</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/allcolor.css">
+</head>
+<body class="bg-info">
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="col-6">
+                <div class="card" style="margin-top: 25%;">
+                    <div class="card-header">
+                        <div class="text fw-bold fs-3">管理員登入</div>
+                    </div>
+                    <div class="card-body">
+                        <label class="form-label fw-semibold fs-5" for="adminUsername">帳號</label>
+                        <input class="form-control" type="text" name="adminUsername" id="adminUsername" value="admin">
+                        <label class="form-label fw-semibold fs-5 mt-3" for="adminPassword">密碼</label>
+                        <input class="form-control" type="password" name="adminPassword" id="adminPassword" value="123456">
+                        <div class="text-center mt-3">
+                            <a class="btn btn-outline-primary" id="mem_login" href="#">登入</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="../js/jquery-3.6.3.min.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(function(){
+            $("#mem_login").bind("click",function(){
+                let jsonData = {};
+                jsonData["username"] = $("#adminUsername").val();
+                jsonData["password"] = $("#adminPassword").val();
+                console.log(JSON.stringify(jsonData));
+
+                $.ajax({
+                    type:"post",
+                    url:"mem_index_R_api.php",
+                    data:JSON.stringify(jsonData),
+                    dataType:"json",
+                    success:showdata_login,
+                    error:function(){
+                        alert("error_mem_index_R_api.php");
+                    }
+                });
+            });
+
+        });
+
+        function showdata_login(data){
+            if(data.state){
+                alert(data.message);
+                location.href = "../read_list.html";
+            }else{
+                alert(data.message);
+                location.href = "index.html";
+            }
+        }
+        
+    </script>
+
+
+
+</body>
+</html>

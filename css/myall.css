@@ -1,0 +1,141 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&display=swap');
+        
+
+:root{
+    --mycolor01:#ECE4E2;
+    --mycolor02:#FCD3D1;
+    --mycolor03:#FCDFF3;
+    --mycolor04:#FE929F;
+    --mycolor05:#b396f2;
+    --mywhite:#f3f2f6;
+    --mycolor06:#DCC180;
+    --mycolor07:#869DAB;
+    --mycolor08:#847072;
+    --mycolor09:#3D313F;
+    --mycolor10:#9BCFB8;
+    --mycolor11:#7FB174;
+    --mycolor12:#689C97;
+    --mycolor13:#072A24;
+    --color14:#85b8cb;
+    
+
+    
+}
+.box01{
+    height: 180px;
+    background-color: var(--mycolor02);
+    border:3px solid var(--mycolor03);   /*邊框顏色*/
+    line-height: 180px;
+    text-align: center;
+    font-size: 36px;
+    font-weight: bolder;
+    color: var(--mycolor04);
+}
+
+.box02{
+    height: 100px;
+    background-color: var(--mycolor04);
+    border:3px solid var(--mycolor05);   /*邊框顏色*/
+    line-height: 100px;
+    text-align: center;
+    font-size: 36px;
+    font-weight: bolder;
+    color: var(--mycolor02);
+}
+
+.box04{
+    height: 50px;
+    background-color: var(--mycolor12);
+    border:2px solid var(--mycolor13);   /*邊框顏色*/
+    line-height: 50px;
+    text-align: center;
+    font-size: 50px;
+    font-weight: bolder;
+    color: var(--mycolor04);
+}
+
+.box05{
+    height: 100px;
+    background-color: var(--mycolor04);
+    border:3px solid var(--mycolor05);   /*邊框顏色*/
+    line-height: 100px;
+    text-align: center;
+    font-size: 36px;
+    font-weight: bolder;
+    color: var(--mycolor02);
+}
+.box03{
+    background-color: var(--mycolor02);
+    border:3px solid var(--mycolor05);
+    border-radius: 10px;
+}
+
+.box03:hover{
+    background-color: var(--mycolor03);  
+    color:var(--mywhite);
+    border-radius: 10px;
+
+}
+.mybtn{
+    display: block;
+    width: 100%;                          
+    height: 40px;
+    background-color:var(--mywhite);      
+    text-align: center;                   
+    line-height: 40px;
+    text-decoration: none;               
+    color: var(--mycolor04);              
+    font-weight: bolder;                  
+    border: solid 2px var(--mycolor04); 
+    border-radius: 10px;
+}
+
+.bg-cover{
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+.mytext100{
+    font-weight: 100;
+}
+.mytext300{
+    font-weight: 300;
+}
+.mytext400{
+    font-weight: 400;
+}
+.mytext900{
+    font-weight: 900;
+}
+
+
+body{    font-family:  'Noto Sans TC', sans-serif;
+        }
+        
+.demo{
+        padding: 10px;
+        margin-top: 10px;
+        background-color: var(--mycolor13);
+        border: 2px solid var(--mycolor11);
+        color: var(--mycolor10)
+}
+
+.fw-100{
+    font-weight: 100;
+}
+.fw-300{
+    font-weight: 300;
+}
+.fw-400{
+    font-weight: 400;
+}
+.fw-500{
+    font-weight: 500;
+}
+.fw-700{
+    font-weight: 700;
+}
+.fw-900{
+    font-weight: 900;
+}

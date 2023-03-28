@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新增電影表單</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/allcolor.css">
+    <link rel="stylesheet" href="css/fontawesome.min.css">
+    <link rel="stylesheet" href="css/wow.animate.min.css">
+</head>
+<style>
+    .box {
+        height: 1550px;
+        border-right: 2px solid var(--color28);
+        padding: 0 15px 0 15px;
+        background-color: var(--color10);
+    }
+    
+    .li-bg {
+        background-color: var(--color2);
+    }
+    
+    .li-bg a {
+        text-decoration: none;
+        color: #000;
+    }
+</style>
+
+<body>
+
+    <div class="row w-100 h-100">
+        <div class="col-2 bg-light">
+            <div class="box">
+                <ul class="list-unstyled list-group pt-5">
+
+                    <li class=" list-group-item btn li-bg btn-danger  d-block border border-2 border-dark mb-1">
+                        <a href="member/mem_R.html">會員</a>
+                    </li>
+                    <li class=" list-group-item btn li-bg  btn-danger d-block border border-2 border-dark mb-1">
+                        <a href="create.html">新增電影</a>
+                    </li>
+                    <li class=" list-group-item btn li-bg  btn-danger d-block border border-2 border-dark mb-1"> <a href="read_list.html"> 電影清單</a>
+                    </li>
+                    <li class=" list-group-item btn li-bg  btn-danger d-block border border-2 border-dark mb-1"> <a href="chart/chart.html">圖表</a>
+                    </li>
+
+                    <li class=" list-group-item btn li-bg  btn-danger d-block border border-2 border-dark mt-5"> <a href="read_list.html"> 回首頁</a>
+                    </li>
+
+                    <li class=" list-group-item btn li-bg  btn-danger d-block border border-2 border-dark" style="margin-top: 300px;">
+                        <a href="member/index.html" id="btn_logout">登出</a>
+                    </li>
+                </ul>
+
+            </div>
+
+        </div>
+        <div class="col-10 bg-light">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="text-center">電影新增</h3>
+                    <div class="mb-3">
+                        <label for="mv_title" id="s01">1. 片名</label>
+                        <input type="text" class="form-control" id="mv_title" name="mv_title" placeholder="三十字以內" maxlength="30" value="鈴芽之旅" required>
+                        <!-- <div class="form-text" id="err_mv_title"></div> -->
+                        <div class="valid-feedback">輸入正確</div>
+                        <div class="invalid-feedback">輸入錯誤</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="mv_poster" id="s02">2. 圖片</label>
+                        <input type="file" class="form-control" id="mv_poster" name="mv_poster" multiple accept=".jpg,.jpeg" required>
+                        <div id="img_poster" class="mt-3">
+                            <!-- <img src="${e.target.result}" class="img-thumbnail rounded ms-3" alt="圖片" style="height:150px;width:150px"> -->
+                        </div>
+                        <div class="valid-feedback">輸入正確</div>
+                        <div class="invalid-feedback">輸入錯誤</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="mv_release" id="s03">3. 上映日期</label>
+                        <input type="date" class="form-control" id="mv_release" name="mv_release" required>
+                        <!-- <div class="form-text" id="err_mv_release"></div> -->
+                        <div class="valid-feedback">輸入正確</div>
+                        <div class="invalid-feedback">輸入錯誤</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="mv_intro" id="s04">4. 電影介紹</label>
+                        <textarea type="text" class="form-control " name="mv_intro" id="mv_intro" style="height: 300px;" required>★ 日本首週末賣破18.8億，超越《你的名字。》《天氣之子》打破新海誠導演個人開片票房紀錄 ★ 蟬聯日本票房3週冠軍，票房突破125億 ★《你的名字。》《天氣之子》導演新海誠最新作品 ★ 日本搖滾天團 RADWIMPS 攜手《攻殼機動隊SAC_2045》作曲家陣內一真打造動人配樂 ★ 1700人海選脫穎而出新生代女演員 原菜乃華 X 「SixTONES」成員 松村北斗 獻聲演出男女主角 ★集結深津繪里、染谷將太、伊藤沙莉、花瀬琴音、花澤香菜等超人氣演員及聲優陣容擔綱配音 ★TikTok 歌手「十明」感動獻唱主題曲《すずめ》 ★門的另一端，存在著所有的時間―― 生活在九州鄉間的17歲少女鈴芽（原菜乃華 配音），某日遇到一名「為了尋找門」而四處旅行的神祕青年草太（松村北斗 配音）。好奇的鈴芽尾隨草太進入山中的廢墟後，在那裡發現了一扇宛如遭逢崩塌毀壞後，所留下的陳舊之門。受到某種神祕力量的吸引，鈴芽將手伸向了那扇門……。 不久之後，日本各地開始出現類似的「門」，如果未能及時將門關上，存在於門另一端的災厄將降臨於現世。繁星、夕陽、和拂曉時分――鈴芽踏入的迷途之境，有著彷彿將所有時間融合在一起的天空……。 於是，在神祕之門的引導下，鈴芽踏上了一段奇妙的“關門之旅”……。</textarea>
+                        <!-- <div class="form-text" id="err_mv_intro"></div> -->
+                        <div class="valid-feedback">輸入正確</div>
+                        <div class="invalid-feedback">輸入錯誤</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="mv_dir" id="s05">5. 導演：<span style="color:var(--color15)">EX : 詹姆斯,卡麥隆,....</span></label>
+                        <input type="text" class="form-control" id="mv_dir" name="mv_dir" maxlength="50" placeholder="五十字以內" value="新海誠(Makoto Shinkai)" required>
+                        <!-- <div class="form-text" id="err_mv_dir"></div> -->
+                        <div class="valid-feedback">輸入正確</div>
+                        <div class="invalid-feedback">輸入錯誤</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="mv_casting" id="s06">6. 演員：<span style="color:var(--color15)">EX :
+                                柔伊莎達娜,雪歌妮薇佛,....</span></label>
+                        <input type="text" class="form-control" id="mv_casting" name="mv_casting" value="原菜乃華，松村北斗(Matsumura Hokuto)，深津繪里(Eri Fukatsu)，染谷將太(Shota Sometani)，伊藤沙莉(Itoh Sairi)，花澤香菜(Kana Hanazawa)" required>
+                        <!-- <div class="form-text" id="err_mv_casting"></div> -->
+                        <div class="valid-feedback">輸入正確</div>
+                        <div class="invalid-feedback">輸入錯誤</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="mv_genre" id="s07">7. 電影類型：<span style="color:var(--color15)">(至少勾選兩個以上)</span></label>
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="checkbox_genre" id="genre01" value="劇情片">
+                                    <label for="genre01" class="form-check-label">劇情片</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="checkbox_genre" id="genre02" value="動畫片">
+                                    <label for="genre02" class="form-check-label">動畫片</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="checkbox_genre" id="genre03" value="紀錄片">
+                                    <label for="genre03" class="form-check-label">紀錄片</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="checkbox_genre" id="genre04" value="喜劇片">
+                                    <label for="genre04" class="form-check-label">喜劇片</label>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="checkbox_genre" id="genre05" value="動作片">
+                                    <label for="genre05" class="form-check-label">動作片</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="checkbox_genre" id="genre06" value="愛情片">
+                                    <label for="genre06" class="form-check-label">愛情片</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="checkbox_genre" id="genre07" value="科幻片">
+                                    <label for="genre07" class="form-check-label">科幻片</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="checkbox_genre" id="genre08" value="戰爭片">
+                                    <label for="genre08" class="form-check-label">戰爭片</label>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="checkbox_genre" id="genre09" value="懸疑片">
+                                    <label for="genre09" class="form-check-label">懸疑片</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="checkbox_genre" id="genre10" value="驚悚片">
+                                    <label for="genre10" class="form-check-label">驚悚片</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="checkbox_genre" id="genre11" value="西洋片">
+                                    <label for="genre11" class="form-check-label">西洋片</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="checkbox_genre" id="genre12" value="華語片">
+                                    <label for="genre12" class="form-check-label">華語片</label>
+                                </div>
+                            </div>
+                            <div class="form-text" id="err_checkbox_genre"></div>
+                        </div>
+
+
+
+                        <div class="form-text" id="err_mv_genre"></div>
+                        <br>
+                        <div class="mb-3">
+                            <p id="s08">8. 電影長度</p>
+                            <div class="d-flex">
+                                <select id="mv_length01" name="mv_length01" class="form-select form-select-sm w-25 h-25 " aria-label="Default select example">
+                                    <option selected value="00">00</option>
+                                    <option value="01">01</option>
+                                    <option value="02">02</option>
+                                    <option value="03">03</option>
+                                    <option value="04">04</option>
+                                    <option value="05">05</option>
+                                    <option value="06">06</option>
+                                    <option value="07">07</option>
+                                    <option value="08">08</option>
+                                    <option value="09">09</option>
+                                    <option value="10">10</option>
+                                </select>
+
+                                <p class="fs-5 ms-2 me-2">小時</p>
+
+                                <select id="mv_length02" name="mv_length02" class="form-select form-select-sm w-25 h-25 " aria-label="Default select example">
+                                    <option selected value="00">00</option>
+                                    <option value="01">01</option>
+                                    <option value="02">02</option>
+                                    <option value="03">03</option>
+                                    <option value="04">04</option>
+                                    <option value="05">05</option>
+                                    <option value="06">06</option>
+                                    <option value="07">07</option>
+                                    <option value="08">08</option>
+                                    <option value="09">09</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                    <option value="13">13</option>
+                                    <option value="14">14</option>
+                                    <option value="15">15</option>
+                                    <option value="16">16</option>
+                                    <option value="17">17</option>
+                                    <option value="18">18</option>
+                                    <option value="19">19</option>
+                                    <option value="20">20</option>
+                                    <option value="21">21</option>
+                                    <option value="22">22</option>
+                                    <option value="23">23</option>
+                                    <option value="24">24</option>
+                                    <option value="25">25</option>
+                                    <option value="26">26</option>
+                                    <option value="27">27</option>
+                                    <option value="28">28</option>
+                                    <option value="29">29</option>
+                                    <option value="30">30</option>
+                                    <option value="31">31</option>
+                                    <option value="32">32</option>
+                                    <option value="33">33</option>
+                                    <option value="34">34</option>
+                                    <option value="35">35</option>
+                                    <option value="36">36</option>
+                                    <option value="37">37</option>
+                                    <option value="38">38</option>
+                                    <option value="39">39</option>
+                                    <option value="40">40</option>
+                                    <option value="41">41</option>
+                                    <option value="42">42</option>
+                                    <option value="43">43</option>
+                                    <option value="44">44</option>
+                                    <option value="45">45</option>
+                                    <option value="46">46</option>
+                                    <option value="47">47</option>
+                                    <option value="48">48</option>
+                                    <option value="49">49</option>
+                                    <option value="50">50</option>
+                                    <option value="51">51</option>
+                                    <option value="52">52</option>
+                                    <option value="53">53</option>
+                                    <option value="54">54</option>
+                                    <option value="55">55</option>
+                                    <option value="56">56</option>
+                                    <option value="57">57</option>
+                                    <option value="58">58</option>
+                                    <option value="59">59</option>
+                                </select>
+                                <p class="fs-5 ms-2">分鐘</p>
+                            </div>
+                            <div class="form-text" id="err_mv_length"></div>
+                            <div class="valid-feedback">輸入正確</div>
+                            <div class="invalid-feedback">輸入錯誤</div>
+                        </div>
+                        <div class="mb-3 mt-3">
+                            <label for="mv_awarding" id="s09">9. 得獎提名：<span style="color:var(--color15)">EX : 奧斯卡金像獎,金馬獎,....</span></label>
+                            <input type="text" class="form-control" id="mv_awarding" name="mv_awarding" maxlength="100" placeholder="一百字以內" value="金熊獎" required>
+                            <!-- <div class="form-text" id="err_mv_awarding"></div> -->
+                            <div class="valid-feedback">輸入正確</div>
+                            <div class="invalid-feedback">輸入錯誤</div>
+                        </div>
+                        <div class="text-center d-flex justify-content-evenly">
+                            <a href="#" class="btn btn-outline-secondary" id="ok_btn_cls">清除</a>
+                            <a href="#" class="btn btn-success" id="ok_btn">確認</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/fontawesome.min.js"></script>
+    <script src="js/jquery-3.6.3.min.js"></script>
+    <script src="js/wow.min.js"></script>
+    <script src="create.js"></script>
+    <script>
+        //即時監聽
+        var flag_mv_title;
+        var flag_mv_poster;
+        var flag_mv_release;
+        var flag_mv_intro;
+        var flag_mv_dir;
+        var flag_mv_casting;
+        var flag_mv_length;
+        var flag_mv_genre;
+        var flag_mv_awarding;
+        var flag_mv_length01;
+        var flag_mv_length02;
+
+        var hour;
+        var min;
+        $(function() {
+            //登出
+            $("#btn_logout").bind("click", function() {
+                alert("登出成功");
+            });
+            //新增檔案
+            create();
+        });
+    </script>
+</body>
+
+</html>

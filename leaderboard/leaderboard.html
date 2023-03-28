@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>上映中排行榜</title>
+	<link rel="stylesheet" href="../css/all.min.css">
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/myall.css">
+	<!--參考自https://codepen.io/diyorbek0309/pen/mdwbEve-->
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		.text {
+			/*標題*/
+			font-size: 40px;
+			color: #fffbfb;
+			margin-top: -700px;
+			margin-left: 900px;
+			white-space: nowrap;
+
+		}
+
+		.wrapper {
+			/*背景:圈圈泡泡*/
+			height: 100%;
+			width: 100%;
+			background: linear-gradient(180deg, #fffbfb 10% #b0abab 30% #000000 60%);
+			position: absolute;
+		}
+
+		.wrapper :hover {
+			background-color: rgb(139, 255, 6);
+			height: 100px;
+			width: 100px;
+		}
+
+		.wrapper h1 {
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			position: absolute;
+			font-family: sans-serif;
+			letter-spacing: 1px;
+			word-spacing: 2px;
+			color: #fff;
+			font-size: 40px;
+			font-weight: 888;
+			text-transform: uppercase;
+		}
+
+		.wrapper div {
+			height: 60px;
+			width: 60px;
+			border: 2px solid rgba(113, 143, 190, 0.7);
+			background-color: rgb(31, 102, 173);
+			opacity: 0.5;
+			border-radius: 50px;
+			position: absolute;
+			top: 10%;
+			left: 10%;
+			animation: 10s linear infinite;
+			/*animation:動畫 infinite:無限次*/
+		}
+
+		div .dot {
+			height: 10px;
+			width: 10px;
+			border-radius: 50px;
+			background: rgb(247, 248, 245);
+			position: absolute;
+			top: 20%;
+			right: 20%;
+		}
+
+		.wrapper div:nth-child(1) {
+			top: 20%;
+			left: 20%;
+			animation: animate 8s linear infinite;
+
+		}
+
+		.wrapper div:nth-child(2) {
+			top: 60%;
+			left: 80%;
+			animation: animate 10s linear infinite;
+
+		}
+
+		.wrapper div:nth-child(3) {
+			top: 40%;
+			left: 40%;
+			animation: animate 9s linear infinite;
+
+		}
+
+		.wrapper div:nth-child(4) {
+			top: 66%;
+			left: 30%;
+			animation: animate 10s linear infinite;
+
+		}
+
+		.wrapper div:nth-child(5) {
+			top: 90%;
+			left: 10%;
+			animation: animate 9s linear infinite;
+			animation-direction: alternate;
+		}
+
+		.wrapper div:nth-child(6) {
+			top: 30%;
+			left: 60%;
+			animation: animate 9s linear infinite;
+
+		}
+
+		.wrapper div:nth-child(7) {
+			top: 70%;
+			left: 20%;
+			animation: animate 8s linear infinite;
+			animation-direction: alternate;
+		}
+
+		.wrapper div:nth-child(8) {
+			top: 75%;
+			left: 60%;
+			animation: animate 10s linear infinite;
+			animation-direction: alternate;
+		}
+
+		.wrapper div:nth-child(9) {
+			top: 50%;
+			left: 50%;
+			animation: animate 8s linear infinite;
+
+		}
+
+		.wrapper div:nth-child(10) {
+			top: 45%;
+			left: 20%;
+			animation: animate 10s linear infinite;
+			animation-direction: alternate;
+		}
+
+		.wrapper div:nth-child(11) {
+			top: 10%;
+			left: 90%;
+			animation: animate 9s linear infinite;
+
+		}
+
+		.wrapper div:nth-child(12) {
+			top: 20%;
+			left: 70%;
+			animation: animate 10s linear infinite;
+			animation-direction: alternate;
+		}
+
+		.wrapper div:nth-child(13) {
+			top: 20%;
+			left: 20%;
+			animation: animate 8s linear infinite;
+
+		}
+
+		.wrapper div:nth-child(14) {
+			top: 60%;
+			left: 5%;
+			animation: animate 10s linear infinite;
+
+		}
+
+		.wrapper div:nth-child(15) {
+			top: 90%;
+			left: 80%;
+			animation: animate 9s linear infinite;
+			animation-direction: alternate;
+		}
+
+		@keyframes animate {
+			0% {
+				transform: scale(0.8) translateY(-100px) rotate(360deg);
+
+			}
+
+			100% {
+				transform: scale(0) translateY(0) rotate(70deg);
+			}
+		}
+
+		/*背景*/
+		body {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			width: 1220px;
+			height: 100vh;
+			background: rgb(7, 7, 7);
+			overflow: hidden;
+		}
+
+		/*大的白色圓形*/
+		.container {
+			position: relative;
+			width: 600px;
+			height: 600px;
+			border: 2px solid #fff;
+			border-radius: 50%;
+			justify-content: left;
+			align-items: center;
+			left: -760px;
+		}
+
+		.container .icon {
+			position: relative;
+			left: -50%;
+			width: 100%;
+			height: 100%;
+			display: flex;
+			justify-content: left;
+			align-items: center;
+			cursor: pointer;
+			/*cursor改變滑鼠游標的形狀 */
+		}
+
+		/*大的白色圓形中的外圍圓形  
+										transform-origin:旋轉大小*/
+		.container .icon .imgBx {
+			position: absolute;
+			width: 100px;
+			height: 100px;
+			border-radius: 50%;
+			transition: 0.5s;
+			border: 1px solid #fff;
+			box-shadow: 0 0 0 4px #222,
+				0 0 0 6px #fff;
+			transform: rotate(calc(360deg/10 * var(--i)));
+			transform-origin: 360px;
+			z-index: 100;
+			overflow: hidden;
+			justify-content: left;
+			align-items: center;
+			left: 200px;
+		}
+
+		/*大的白色圓形中的外圍圓形有反應的才有紅色外框的圓形*/
+		.container .icon .imgBx.active {
+			box-shadow: 0 0 0 6px #222, 0 0 0 12px #ff1d50;
+
+		}
+
+
+
+		/*filter: grayscale(1)灰階  
+										旋轉 中心以360度來切分10小塊圓形 值是外圍小圖設定的 style="--i:1;" 負數是要讓圖片轉正 */
+		.container .icon .imgBx img {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			border-radius: 50%;
+			object-fit: cover;
+			transform: rotate(calc(-360deg/10 * var(--i)));
+			transition: 0.5s;
+			filter: grayscale(1);
+
+
+
+		}
+
+		/*大的白色圓形中的外圍圓形圖有紅色外框的圓形 照片是有顏色*/
+		.container .icon .imgBx.active img {
+			filter: grayscale(0);
+
+		}
+
+		/*大的白色圓形裡面的設定*/
+		.content {
+			position: absolute;
+			inset: 0;
+			overflow: hidden;
+			display: flex;
+			justify-content: left;
+			align-items: center;
+		}
+
+		/*卡片後面長條狀的電影圖片*/
+		.a .box1 {
+			width: 970px;
+			height: 200px;
+			display: flex;
+			background: #e34444;
+			background-image: url("../leaderboard-img/Property  (1).png");
+			opacity: 60%;
+			margin-top: 200px;
+			margin-left: 200px;
+		}
+
+
+
+		.content .contentBx {
+			position: absolute;
+			transform: scale(0);
+			transition: 0.5s;
+			opacity: 0;
+
+		}
+
+		.contentBx.active {
+			transform: scale(1);
+			opacity: 1;
+			transition-delay: 0.5s;
+
+		}
+
+		/*大的圓形白色裡面會旋轉的線 動畫設定 白色和黃色的線*/
+		.content::before {
+			content: '';
+			position: absolute;
+			inset: 100px;
+			border: 4px solid transparent;
+			border-left: 4px solid #e7fc05;
+			border-right: 4px solid #fff;
+			border-radius: 50%;
+			animation: animte_01 5s linear infinite;
+			z-index: 1;
+			pointer-events: none;
+			justify-content: left;
+			align-items: center;
+
+		}
+
+
+		@keyframes animte_01 {
+			0% {
+				rotate: 0deg;
+			}
+
+			100% {
+				rotate: 360deg;
+			}
+		}
+
+		/*大的圓形白色裡面會旋轉的線 動畫設定 白色和紅色的線*/
+		.content::after {
+			content: '';
+			position: absolute;
+			inset: 120px;
+			border: 4px solid transparent;
+			border-left: 4px solid #ff1d50;
+			border-right: 4px solid #fff;
+			border-radius: 50%;
+			animation: animte_02 2.5s linear infinite;
+			z-index: 1;
+			pointer-events: none;
+			align-items: center;
+			justify-content: left;
+		}
+
+		@keyframes animte_02 {
+			0% {
+				rotate: 360deg;
+			}
+
+			100% {
+				rotate: 0deg;
+			}
+		}
+
+
+
+
+		/*大的白色圓形裡面中心的設定*/
+		.contentBx {
+			position: absolute;
+			transform: scale(0);
+			transition: 0.5s;
+			opacity: 0;
+			display: flex;
+			justify-content: left;
+			align-items: center;
+
+		}
+
+		.contentBx.active {
+			transform: scale(1);
+			opacity: 1;
+			transition-delay: 0.5s;
+			/*延遲反應時間*/
+		}
+
+		.contentBx .card {
+			position: relative;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex-direction: column;
+			gap: 15px;
+			left: 200px;
+		}
+
+		.contentBx .card .imgBx {
+			position: relative;
+			width: 150px;
+			height: 150px;
+			border-radius: 10px;
+			overflow: hidden;
+		}
+
+		.contentBx .card .imgBx img {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+
+		}
+
+		.contentBx .card .textBx {
+			display: flex;
+			justify-content: center;
+			align-items: left;
+			flex-direction: column;
+		}
+
+		.contentBx .card .textBx h2 {
+			position: relative;
+			font-size: 1.25em;
+			font-weight: 600;
+			color: #222;
+			line-height: 1em;
+			text-transform: uppercase;
+			text-align: center;
+		}
+
+		.contentBx .card .textBx h2 span {
+			font-size: 0.65em;
+			color: #222;
+			font-weight: 500;
+			letter-spacing: 0;
+		}
+
+
+
+		/*返回首頁的設定*/
+		.sidebar {
+			position: fixed;
+			border: 1px solid rgb(9, 9, 9);
+			border-radius: 10px;
+			width: 120px;
+			height: 40px;
+			right: 0;
+			bottom: 0;
+			margin-bottom: 50px;
+
+			line-height: 40px;
+			background-color: rgb(8, 8, 8);
+			font-size: 10pt;
+			text-align: center;
+			color: white;
+		}
+
+		.sidebar ul {
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+		}
+
+		.sidebar a {
+			display: block;
+			text-decoration: none;
+			font-size: 10pt;
+			text-align: center;
+			color: white;
+		}
+
+		.sidebar a:hover {
+			/*background-color: rgb(248, 248, 246);*/
+			color: rgb(243, 0, 0);
+		}
+
+
+		@media screen and (max-width:767px) {
+
+			body {
+
+				width: 50px;
+				overflow: hidden;
+				background: rgb(235, 170, 170);
+			}
+
+			.text {
+				/*標題*/
+				font-size: 26px;
+				color: #fffbfb;
+				margin-bottom: -90px;
+				margin-left: 370px;
+
+				white-space: nowrap;
+
+			}
+
+			.wrapper div {
+				height: 30px;
+				width: 30px;
+				border: 2px solid rgba(113, 143, 190, 0.7);
+				background-color: rgb(31, 102, 173);
+				opacity: 0.5;
+				border-radius: 50px;
+				position: absolute;
+				top: 5%;
+				left: 5%;
+				animation: 10s linear infinite;
+				/*animation:動畫 infinite:無限次*/
+			}
+
+			div .dot {
+				height: 10px;
+				width: 10px;
+				border-radius: 50px;
+				background: rgb(247, 248, 245);
+				position: absolute;
+				top: 20%;
+				right: 20%;
+			}
+
+			.wrapper div:nth-child(1) {
+				top: 20%;
+				left: 20%;
+				animation: animate 8s linear infinite;
+
+			}
+
+			.wrapper div:nth-child(2) {
+				top: 30%;
+				left: 20%;
+				animation: animate 10s linear infinite;
+
+			}
+
+			.wrapper div:nth-child(3) {
+				top: 40%;
+				left: 80%;
+				animation: animate 9s linear infinite;
+
+			}
+
+			.wrapper div:nth-child(4) {
+				top: 30%;
+				left: 30%;
+				animation: animate 10s linear infinite;
+
+			}
+
+			.wrapper div:nth-child(5) {
+				top: 40%;
+				left: 50%;
+				animation: animate 9s linear infinite;
+				animation-direction: alternate;
+			}
+
+			.wrapper div:nth-child(6) {
+				top: 30%;
+				left: 60%;
+				animation: animate 9s linear infinite;
+
+			}
+
+			.wrapper div:nth-child(7) {
+				top: 40%;
+				left: 10%;
+				animation: animate 8s linear infinite;
+				animation-direction: alternate;
+			}
+
+			.wrapper div:nth-child(8) {
+				top: 30%;
+				left: 20%;
+				animation: animate 10s linear infinite;
+				animation-direction: alternate;
+			}
+
+			.wrapper div:nth-child(9) {
+				top: 20%;
+				left: 70%;
+				animation: animate 8s linear infinite;
+
+			}
+
+			.wrapper div:nth-child(10) {
+				top: 30%;
+				left: 50%;
+				animation: animate 10s linear infinite;
+				animation-direction: alternate;
+			}
+
+			.wrapper div:nth-child(11) {
+				top: 10%;
+				left: 20%;
+				animation: animate 9s linear infinite;
+
+			}
+
+			.wrapper div:nth-child(12) {
+				top: 20%;
+				left: 30%;
+				animation: animate 10s linear infinite;
+				animation-direction: alternate;
+			}
+
+			.wrapper div:nth-child(13) {
+				top: 20%;
+				left: 20%;
+				animation: animate 8s linear infinite;
+
+			}
+
+			.wrapper div:nth-child(14) {
+				top: 30%;
+				left: 5%;
+				animation: animate 10s linear infinite;
+
+			}
+
+			.wrapper div:nth-child(15) {
+				top: 20%;
+				left: 70%;
+				animation: animate 9s linear infinite;
+				animation-direction: alternate;
+			}
+
+			@keyframes animate {
+				0% {
+					transform: scale(0.8) translateY(-100px) rotate(360deg);
+
+				}
+
+				100% {
+					transform: scale(0) translateY(0) rotate(70deg);
+				}
+			}
+
+			.container {
+				position: relative;
+				width: 230px;
+				height: 230px;
+				border: 2px solid #e7fc05;
+				border-radius: 50%;
+				left: -100px;
+				top: 50px;
+			}
+
+			.container .icon {
+				position: relative;
+				left: -67%;
+				width: 100%;
+				height: 100%;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				cursor: pointer;
+			}
+
+			.container .icon .imgBx {
+				position: absolute;
+				width: 40px;
+				height: 40px;
+				border-radius: 50%;
+				overflow: hidden;
+				transition: 0.5s;
+				border: 1px solid #26fc05;
+				box-shadow: 0 0 0 4px #222,
+					0 0 0 6px #dfe4d3;
+				transform: rotate(calc(360deg/10 * var(--i)));
+				transform-origin: 150px;
+				z-index: 100;
+				overflow: hidden;
+				left: 40%;
+
+			}
+
+			.container .icon .imgBx.active {
+				box-shadow: 0 0 0 6px #222,
+					0 0 0 12px #ff1d50;
+			}
+
+			.container .icon .imgBx img {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				border-radius: 50%;
+				object-fit: cover;
+				transform: rotate(calc(-360deg/10 * var(--i)));
+				filter: grayscale(1);
+			}
+
+			.container .icon .imgBx.active img {
+				filter: grayscale(0);
+			}
+
+			.content {
+				position: absolute;
+				inset: 0;
+				overflow: hidden;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+
+			.content::before {
+				content: '';
+				position: absolute;
+				inset: 50px;
+				border: 4px solid transparent;
+				border-left: 4px solid rgb(35, 5, 233);
+				border-radius: 50%;
+				animation: animte_01 2.5s linear infinite;
+				z-index: 1;
+				pointer-events: none;
+			}
+
+			@keyframes animte_01 {
+				0% {
+					rotate: 0deg;
+				}
+
+				100% {
+					rotate: 360deg;
+				}
+			}
+
+			.content::after {
+				content: '';
+				position: absolute;
+				inset: 50px;
+				border: 4px solid transparent;
+				border-left: 4px solid rgb(5, 233, 119);
+				border-radius: 50%;
+				animation: animte_02 1s linear infinite;
+				z-index: 1;
+				pointer-events: none;
+			}
+
+			@keyframes animte_02 {
+				0% {
+					rotate: 360deg;
+				}
+
+				100% {
+					rotate: 0deg;
+				}
+			}
+
+			.contentBx {
+				position: absolute;
+				transform: scale(0);
+				transition: 1s;
+				opacity: 0;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+			}
+
+			.contentBx.active {
+				transform: scale(1);
+				opacity: 1;
+				transition-delay: 1s;
+			}
+
+			.contentBx .card {
+				position: relative;
+				display: flex;
+				justify-content: left;
+				align-items: center;
+				flex-direction: column;
+				gap: 15px;
+				left: 10px;
+			}
+
+			.contentBx .card .imgBx {
+				position: relative;
+				width: 80px;
+				height: 80px;
+				border-radius: 10%;
+				overflow: hidden;
+			}
+
+			.contentBx .card .imgBx img {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+
+			}
+
+			.sidebar {
+				position: fixed;
+				border: 1px solid rgb(235, 170, 170);
+				border-radius: 10px;
+				width: 120px;
+				height: 40px;
+				right: 0;
+				bottom: 600px;
+				left: 120px;
+				margin-bottom: 150px;
+				line-height: 40px;
+				background-color: rgb(235, 170, 170);
+				font-size: 10pt;
+				text-align: center;
+				color: white;
+				top: 700px;
+			}
+
+		}
+	</style>
+</head>
+
+<body>
+
+
+	<div class="text">上映中排行榜</div>
+
+
+	<div class="wrapper "> <!--背景:圓型泡泡動畫-->
+		<div><span class="dot"></span></div>
+		<div><span class="dot"></span></div>
+		<div><span class="dot"></span></div>
+		<div><span class="dot"></span></div>
+		<div><span class="dot"></span></div>
+		<div><span class="dot"></span></div>
+		<div><span class="dot"></span></div>
+		<div><span class="dot "></span></div>
+		<div><span class="dot"></span></div>
+		<div><span class="dot"></span></div>
+		<div><span class="dot"></span></div>
+		<div><span class="dot"></span></div>
+		<div><span class="dot"></span></div>
+		<div><span class="dot"></span></div>
+		<div><span class="dot"></span></div>
+	</div>
+	<div class="a d-flex bg-cover ">
+		<div class="box1 d-none  d-md-block" data-id="content1"></div>
+		<!--<div class="box2 bg-cover"></div>
+		<div class="box3 bg-cover"></div>
+		<div class="box4 bg-cover"></div>
+		<div class="box5 bg-cover"></div>
+		<div class="box6 bg-cover"></div>
+		<div class="box7 bg-cover"></div>
+		<div class="box8 bg-cover"></div>
+		<div class="box9 bg-cover"></div>
+		<img src="/leaderboard-img/background_工作區域 1.png" alt="">
+	</div>-->
+		<div class="container"> <!--外圍小圖片-->
+
+
+			<div class="icon" id="imgBx">
+				<div class="imgBx active" style="--i:1;" data-id="content1">
+					<img src="../leaderboard-img/NO.1.png" />
+				</div>
+				<div class="imgBx " style="--i:2;" data-id="content2">
+					<img src="../leaderboard-img/NO.2.png" />
+				</div>
+				<div class="imgBx " style="--i:3;" data-id="content3">
+					<img src="../leaderboard-img/NO.3.png" />
+				</div>
+				<div class="imgBx " style="--i:4;" data-id="content4">
+					<img src="../leaderboard-img/NO.4.png" />
+				</div>
+				<div class="imgBx " style="--i:5;" data-id="content5">
+					<img src="../leaderboard-img/NO.5.png" />
+				</div>
+				<div class="imgBx " style="--i:6;" data-id="content6">
+					<img src="../leaderboard-img/NO.6.png" />
+				</div>
+				<div class="imgBx " style="--i:7;" data-id="content7">
+					<img src="../leaderboard-img/NO.7.png" />
+				</div>
+				<div class="imgBx" style="--i:8;" data-id="content8">
+					<img src="../leaderboard-img/NO.8.png" />
+				</div>
+				<div class="imgBx " style="--i:9;" data-id="content9">
+					<img src="../leaderboard-img/NO.9.png" />
+				</div>
+				<div class="imgBx " style="--i:10;" data-id="content10">
+					<img src="../leaderboard-img/NO.10.png" />
+				</div>
+
+
+			</div>
+
+			<div class="content" id="leaderboard"> <!--大的白色圓形裡面中心的圖-->
+
+				<!-- <div class="contentBx active" id="content1">
+				<div class="card">
+					<div class="imgBx">
+						<img src="../leaderboard-img/1.jpg" />
+					</div>
+					<div class="textBx">
+						<h2>小小兵<br><span>300次</span></h2>
+					</div>
+				</div>
+			</div>
+			<div class="contentBx" id="content2">
+				<div class="card">
+					<div class="imgBx">
+						<img src="../leaderboard-img/2.jpg" />
+					</div>
+					<div class="textBx">
+						<h2>小小兵2<br><span>280次</span></h2>
+					</div>
+				</div>
+			</div>
+			<div class="contentBx" id="content3">
+				<div class="card">
+					<div class="imgBx">
+						<img src="../leaderboard-img/3.jpg" />
+					</div>
+					<div class="textBx">
+						<h2>冰雪奇緣<br><span>200次</span></h2>
+					</div>
+				</div>
+			</div>
+			<div class="contentBx" id="content4">
+				<div class="card">
+					<div class="imgBx">
+						<img src="../leaderboard-img/4.jpg" />
+					</div>
+					<div class="textBx">
+						<h2>取鬧<br><span>187次</span></h2>
+					</div>
+				</div>
+			</div>
+			<div class="contentBx" id="content5">
+				<div class="card">
+					<div class="imgBx">
+						<img src="../leaderboard-img/5.jpg" />
+					</div>
+					<div class="textBx">
+						<h2>神鬼奇航<br><span>150次</span></h2>
+					</div>
+				</div>
+			</div>
+			<div class="contentBx" id="content6">
+				<div class="card">
+					<div class="imgBx">
+						<img src="../leaderboard-img/6.jpg" />
+					</div>
+					<div class="textBx">
+						<h2>峰迴路轉<br><span>100次</span></h2>
+					</div>
+				</div>
+			</div>
+			<div class="contentBx" id="content7">
+				<div class="card">
+					<div class="imgBx">
+						<img src="../leaderboard-img/7.jpg" />
+					</div>
+					<div class="textBx">
+						<h2>小英雄<br><span>90次</span></h2>
+					</div>
+				</div>
+			</div>
+			<div class="contentBx" id="content8">
+				<div class="card">
+					<div class="imgBx">
+						<img src="../leaderboard-img/8.jpg" />
+					</div>
+					<div class="textBx">
+						<h2>英聲<br><span>80次</span></h2>
+					</div>
+				</div>
+			</div>
+			<div class="contentBx" id="content9">
+				<div class="card">
+					<div class="imgBx">
+						<img src="../leaderboard-img/9.jpg" />
+					</div>
+					<div class="textBx">
+						<h2>吼叫<br><span>70次</span></h2>
+					</div>
+				</div>
+			</div>
+			<div class="contentBx" id="content10">
+				<div class="card">
+					<div class="imgBx">
+						<img src="../leaderboard-img/10.jpg" />
+					</div>
+					<div class="textBx">
+						<h2>無理<br><span>60次</span></h2>
+					</div>
+				</div>
+			</div> -->
+				<!--<div class="contentBx" id="content11">
+				<div class="card">
+					<div class="imgBx">
+						<img src="images/home.png" />
+					</div>
+				</div>
+			</div>-->
+			</div>
+
+		</div>
+		<div class="sidebar"> <!--返回首頁 https://dic.vbird.tw/java/unit08.php#top-->
+			<ul>
+				<li>
+					<a href="../index.html">
+						<lord-icon src="https://cdn.lordicon.com/drvsrrac.json" trigger="hover"
+							colors="primary:#e3c0ac,secondary:#f4c89c,tertiary:#f4dc9c,quaternary:#f4f19c,quinary:#9ce5f4,		senary:#9cf4a7"
+							style="width:100px;height:100px">
+						</lord-icon>
+					</a>
+					<!--<p>home</p>-->
+				</li>
+			</ul>
+		</div>
+</body>
+<script src="https://cdn.lordicon.com/ritcuqlt.js"></script>
+<script src="../js/bootstrap.bundle.min.js"></script>
+<script src="../js/wow.min.js"></script>
+<script src="../js/jquery-3.6.3.min.js"></script>
+<script>
+
+	//記得要寫!! 這要才會有data-wow-duration(出現) data-wow-delay(幾秒後出現) data-wow-iteration(次數)效果        
+	new WOW().init();
+
+	$(function () {
+
+		$.ajax({
+			type: "get",
+			url: "leaderboard_api.php",
+			dataType: "json",
+			async: false,
+			success: showdata_leaderboard_api,
+			error: function () {
+				alert("error_leaderboard_api.php");
+			}
+		});
+
+
+
+
+		let imgBx = document.querySelectorAll('.imgBx');  //外圍小圓形的圖
+		let contentBx = document.querySelectorAll('.contentBx');  //大圓中心的圖
+
+		for (let i = 0; i < 10; i++) {
+			imgBx[i].addEventListener('mouseover', function () {
+				for (let i = 0; i < 10; i++) {      //滑鼠碰到外圍小圖 大的白色圓形裡面中心的圖會出現
+					contentBx[i].className = 'contentBx';
+				}
+				document.getElementById(this.dataset.id). //呼叫data-id
+					className = 'contentBx active';
+
+				for (let i = 0; i < 10; i++) {         //滑鼠碰到外圍小圖  外框會出現反應(紅色外框)
+					imgBx[i].className = 'imgBx';
+
+				}
+				this.className = 'imgBx active';
+			})
+		}
+
+	});
+
+	function showdata_leaderboard_api(data) {
+		if (data.state) {
+			for (let i = 0; i < 10; i++) {
+				let poster = data.data[i].Mv_poster.split(",");
+				let centerImg = `
+				<div class="contentBx" id="content${i + 1}">
+					<div class="card">
+						<div class="imgBx">
+							<img src="../img/${poster[0]}" />
+						</div>
+						<div class="textBx">
+							<h2>${data.data[i].Mv_title}<br><span>${data.data[i].Mv_rating}次</span></h2>
+						</div>
+					</div>
+				</div>`;
+
+				$("#leaderboard").append(centerImg);
+
+				if (i == 0) {
+					$("#content1").addClass("active");
+				}
+			}
+
+
+		} else {
+			alert(data.message);
+		}
+
+	}
+
+</script>
+
+
+
+</html>

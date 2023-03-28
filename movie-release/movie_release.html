@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>上映中</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/myall.css">
+    <link rel="stylesheet" href="../css/all.min.css">
+    <link rel="stylesheet" href="../css/wow.animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.js"></script>
+    <!--https://www.youtube.com/watch?v=YhXxBhInJMI-->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .text {
+            font-size: 24px;
+        }
+
+        body {
+            background: rgb(7, 7, 7);
+            font-weight: 500;
+            height: 100%;
+            overflow-x: hidden;
+
+        }
+
+        i {
+            position: absolute;
+            height: 50px;
+            background: linear-gradient(transparent, rgb(85, 85, 85));
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+            opacity: 0.8;
+            animation: animate 5s linear infinite;
+            z-index: -1;
+
+
+        }
+
+        i:nth-child(3n+1) {
+            background: linear-gradient(transparent, rgb(2, 247, 2));
+
+        }
+
+        i:nth-child(3n+2) {
+            background: linear-gradient(transparent, rgb(229, 241, 3));
+
+        }
+
+        i:nth-child(3n+3) {
+            background: linear-gradient(transparent, rgb(0, 137, 242));
+
+        }
+
+        @keyframes animate {
+            100% {
+                transform: translateY(50px);
+                /*上方*/
+            }
+
+            0% {
+                transform: translateY(calc(1px + -400px));
+                /*下方*/
+            }
+        }
+
+        .sec09-2 {
+            background-color: rgba(0, 0, 0, 0.3);
+            color: azure;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            padding: 15px;
+        }
+
+
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;500;700;900&display=swap');
+
+        .carousel-caption,
+        .home {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        @media screen and (max-width:768px) {
+            .sec05-1 {
+                right: 0px;
+            }
+
+            .sec05-2,
+            .sec07-1,
+            .sec09 {
+                background-color: rgba(0, 0, 0, 0.3);
+                color: azure;
+                margin-top: 15px;
+                margin-bottom: 15px;
+                padding: 15px;
+            }
+
+            .sec07-2 {
+                left: 0;
+            }
+
+            .sec06 {
+                height: 50px;
+                width: 50vh;
+                line-height: 50px;
+                font-size: xx-large;
+            }
+
+        }
+
+        .sidebar {
+            position: fixed;
+            border: 1px solid gray;
+            border-radius: 10px;
+            width: 120px;
+            height: 40px;
+            right: 0;
+            bottom: 0;
+
+            line-height: 40px;
+            background-color: rgba(98, 91, 87, 1);
+            font-size: 10pt;
+            text-align: center;
+            color: white;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .sidebar a {
+            display: block;
+            text-decoration: none;
+            font-size: 10pt;
+            text-align: center;
+            color: white;
+        }
+
+        .sidebar a:hover {
+            /*background-color: rgb(248, 248, 246);*/
+            color: rgb(243, 0, 0);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <nav class="navbar navbar-expand-lg bg-dark">
+                    <div class="container-fluid">
+                        <img src="../logo/egg.gif" class="rounded-3" height="60" alt="">
+                        <button class="navbar-toggler navbar-dark" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav my-auto mb-2 mb-lg-0 ms-5">
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="../index.html"><span
+                                            class="text text-light">首頁
+                                        </span></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="../leaderboard/leaderboard.html"><span
+                                            class="text ms-4 text-light">排行榜</span></a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+
+        <!-- ***********************************輪播*********************************************** -->
+        <div class="row mt-5">
+            <div class="col">
+                <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="false">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0"
+                            class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+                            aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+                            aria-label="Slide 3"></button>
+                    </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img class="d-block w-100" src="../leaderboard-img/1.jpg" height="500">
+                            <div class="carousel-caption d-none d-md-block bg-danger">
+                                <h1 class="display-2">驚聲尖叫6</h1>
+                                <p class="display-6">3月10日，破解公式，戲院見</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img class="d-block w-100" src="../leaderboard-img/2.jpg" height="500">
+                            <div class="carousel-caption d-none d-md-block bg-info">
+                                <h5 class="display-2">捍衛任務4</h5>
+                                <p class="display-6">3月29日，連假首選，戲院見</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img class="d-block w-100" src="../leaderboard-img/3.jpg" height="500">
+                            <div class="carousel-caption d-none d-md-block bg-success">
+                                <h5 class="display-2">量子狂熱</h5>
+                                <p class="display-6">3月19日，火爆登場，戲院見</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- **********************slick************************** -->
+        <div class="row" style="padding: 0px 15px 0px 15px;margin-top: 50px;">
+            <div class="col">
+                <div class="slider responsive" id="slick_rendering">
+                    <!-- <div class="rounded mt-3 ps-3">
+                        <div class="card" style="width: 18rem;">
+                            <img src="../img/1.jpg" height="285" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">1</h5>
+                                <p class="card-text text-truncate">
+                                    十分妹妹，忽然加拿大新年步驟來說深刻是因為臺灣授權方式被人選項，可惜網際目錄到處接下來領域動漫位元新竹專欄日期文本支持願意，經營許可證道德品質相機是啊資訊，對我筆者不停美麗直接通常患者一邊又是資料支付服飾一句
+                                </p>
+                                <a href="#" class="btn btn-outline-secondary me-2" data-bs-toggle="modal"
+                                    data-bs-target="#updateModal">詳細資料</a>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="movie_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-3" id="exampleModalLabel">電影介紹</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label for="movie_title" class="form-label">電影標題</label>
+                                    <input type="text" class="form-control" id="movie_title" disabled>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="movie_release" class="form-label">上映日期</label>
+                                    <input type="text" class="form-control" id="movie_release" disabled>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="movie_intro" class="form-label">電影簡介</label>
+                                    <textarea class="form-control" id="movie_intro" style="height: 300px"
+                                        disabled></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="movie_director" class="form-label">導演</label>
+                                    <input type="text" class="form-control" id="movie_director" disabled>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="movie_casting" class="form-label">演員</label>
+                                    <textarea class="form-control" id="movie_casting" style="height: 100px" disabled></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="movie_genre" class="form-label">類型</label>
+                                    <input type="text" class="form-control" id="movie_genre" disabled>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="movie_length" class="form-label">電影長度</label>
+                                    <input type="text" class="form-control" id="movie_length" disabled>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="movie_awarding" class="form-label">得獎提名</label>
+                                    <input type="text" class="form-control" id="movie_awarding" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="../js/jquery-3.6.3.min.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/wow.min.js"></script>
+    <script src="../js/fontawesome.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
+    <script>
+        $(function () {
+
+            $.ajax({
+                type: 'get',
+                url: "movie_release_slick.php",
+                dataType: "json",
+                async: false,
+                success: showdata_slick,
+                error: function () {
+                    alert("error_movie_release_slick.php");
+                }
+            });
+
+            //slick_modal
+            $(".card #modal_btn").bind("click", function () {
+
+                let jsonData = {};
+                jsonData["id"] = $(this).data("id");
+                console.log(JSON.stringify(jsonData));
+
+                $.ajax({
+                    type: "post",
+                    url: "movie_release_slick_modal.php",
+                    dataType: "json",
+                    data: JSON.stringify(jsonData),
+                    success: showdata_slick_modal,
+                    error: function () {
+                        alert("error_movie_slick_modal.php");
+                    }
+                });
+            });
+
+
+
+            $(".responsive").slick({
+                dots: true,
+                infinite: false,
+                speed: 300,
+                slidesToShow: 4,
+                slidesToScroll: 4,
+                responsive: [
+                    {
+                        breakpoint: 1024,
+                        settings: {
+                            slidesToShow: 3,
+                            slidesToScroll: 3,
+                            infinite: true,
+                            dots: true
+                        }
+                    },
+                    {
+                        breakpoint: 600,
+                        settings: {
+                            slidesToShow: 2,
+                            slidesToScroll: 2
+                        }
+                    },
+                    {
+                        breakpoint: 480,
+                        settings: {
+                            slidesToShow: 1,
+                            slidesToScroll: 1
+                        }
+                    }
+                ]
+            });
+
+        });
+
+
+        function showdata_slick(data) {
+            data.data.forEach(function (item) {
+                let slick_poster = item.Mv_poster.split(",");
+
+                let slick_render =
+                    ` 
+                      <div class="rounded mt-3 ps-3">
+                       <div class="card" style="width: 18rem;">
+                         <img src="../img/${slick_poster[0]}" height="285" class="card-img-top" alt="...">
+                         <div class="card-body">
+                           <h5 class="card-title">${item.Mv_title}</h5>
+                           <p class="card-text text-truncate">
+                             ${item.Mv_intro}
+                           </p>
+                           <a href="#" class="btn btn-primary" id="modal_btn" data-id="${item.ID}" data-bs-toggle="modal" data-bs-target="#movie_modal">電影介紹</a>
+                         </div>
+                       </div>
+                      </div>
+                    `;
+
+                $("#slick_rendering").append(slick_render);
+            });
+        }
+
+        function showdata_slick_modal(data) {
+            if (data.state) {
+                let mv_casting = data.data.Mv_casting.split("，").join("\n");
+                $("#movie_title").val(data.data.Mv_title);
+                $("#movie_release").val(data.data.Mv_release);
+                $("#movie_intro").text(data.data.Mv_intro);
+                $("#movie_director").val(data.data.Mv_director);
+                $("#movie_casting").text(mv_casting);
+                $("#movie_genre").val(data.data.Mv_genre);
+                $("#movie_length").val(data.data.Mv_length);
+                $("#movie_awarding").val(data.data.Mv_awarding);
+
+            } else {
+                alert(data.message);
+            }
+        }
+
+        function rain() {
+            let amount = 180; //線條數量
+            let body = document.querySelector('body'); //回傳匹配到的第一個元素('body')
+            let i = 0;
+            while (i < amount) {
+                let drop = document.createElement('i');//依指定的標籤名稱建立HTML 元素('i')
+
+                let size = Math.random() * 5; //隨機取出兩數值之間值
+                let posX = Math.floor(Math.random() * window.innerWidth);
+                let delay = Math.random() * -100;
+                let duration = Math.random() * 5;
+
+                drop.style.width = 0.02 + size + 'px';
+                drop.style.left = posX + 'px';
+                drop.style.animationDelay = delay + 's';
+                body.appendChild(drop);
+                i++
+            }
+        }
+        rain();
+    </script>
+
+
+
+</body>
+
+</html>

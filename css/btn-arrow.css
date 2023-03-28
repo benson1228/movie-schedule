@@ -1,0 +1,26 @@
+.btn-outline-slick {
+    --bs-btn-color: var(--color6);
+    --bs-btn-border-color: var(--color1);
+
+}
+
+.btn-outline-slick-hover {
+    --bs-btn-hover-border-color: var(--color3);
+    --bs-btn-hover-color: var(--color58);
+    --bs-btn-hover-bg: var(--color3);
+}
+
+.btn-slick {
+    --bs-btn-border-color: var(--color2);
+    background-color: var(--color2);
+    color: var(--color58);
+}
+
+.btn-arrow {
+    color: var(--color2);
+}
+
+.btn-arrow:hover {
+
+    color: var(--color3);
+}

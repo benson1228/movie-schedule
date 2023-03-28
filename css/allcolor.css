@@ -1,0 +1,85 @@
+:root{
+    --color1:#ffd954;
+    --color2:#e4b660;
+    --color3:#f2ab39;
+    --color4:#69491a;
+    --color5:#e1dcd9;
+    --color6:#8f8681;
+    --color7:#a67f78;
+    --color8:#32435f;
+    --color9:#d1ede1;
+    --color10:#7bc5ae;
+    --color11:#028c6a;
+    --color12:#003e19;
+    --color13:#d1dddb;
+    --color14:#85b8cb;
+    --color15:#1d6a96;
+    --color16:#283b42;
+    --color17:#d5d2c1;
+    --color18:#bd8e62;
+    --color19:#a46843;
+    --color20:#370d00;
+    --color21:#98cfb8;
+    --color22:#7fb174;
+    --color23:#689c97;
+    --color24:#072a24;
+    --color25:#ffc2c3;
+    --color26:#fe7773;
+    --color27:#e81e25;
+    --color28:#0e0301;
+    --color29:#d3b7d8;
+    --color30:#a13e97;
+    --color31:#632a7e;
+    --color32:#280e3b;
+    --color33:#ffefa1;
+    --color34:#ffb21a;
+    --color35:#876363;
+    --color36:#414b6f;
+    --color37:#e6b6c2;
+    --color38:#d4587a;
+    --color39:#dc364c;
+    --color40:#778633;
+    --color41:#596fb5;
+    --color42:#fe7139;
+    --color43:#928a99;
+    --color44:#695d85;
+    --color45:#fbd1a7;
+    --color46:#607178;
+    --color47:#353c42;
+    --color48:#01273c;
+    --color49:#9ea2ab;
+    --color51:#6d8db6;
+    --color52:#a16f3a;
+    --color53:#ffcc71;
+    --color54:#9cb3c5;
+    --color55:#586c50;
+    --color56:#d5683d;
+    --color57:#865b2e;
+    --color58:white;
+}
+
+
+/* .box {
+    height: 180px;
+    border: 3px solid var(--color32);
+    background-color: var(--color26);
+    text-align: center;
+    line-height: 180px;
+    font-size: 36px;
+    font-weight: bolder;
+}
+
+.box01 {
+    height: 120px;
+    border: 3px solid var(--color32);
+    background-color: var(--color26);
+    text-align: center;
+    line-height: 120px;
+    font-size: 36px;
+    font-weight: bolder;
+}
+
+.bg-cover{
+    background-size: cover;
+    background-position: center center;
+} */
