@@ -27,9 +27,14 @@
 <li>使用 MarkerClusterGroup 群組該區域的公廁。</li>
 <li>針對使用者定位設置(HTML Geolocation API)。</li>
 </ol>
-
-
-
-
+<h2>電影時刻表：查看所有類型電影的放映時間 (後臺)</h2>
+<img src="img/font-end.jpg" height="350" alt="">
+<ol>
+<li>後臺API的串接(CRUD)</li>
+<li> 會員管理(會員等級、狀態、功能)</li>
+<li>新增電影(上傳多個圖片、checkbox應用、等等...)</li>
+<li>電影清單(分頁、電影查詢、更新、刪除)</li>
+<li>圖表(使用chart.js，會員總數、電影總數、等等...)</li>
+</ol>
 
 
