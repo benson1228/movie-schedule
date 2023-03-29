@@ -7,6 +7,17 @@
 <li>使用cookie保留會員狀態</li>
 <li>排行榜&nbsp;(按電影介紹觸發點擊率，點擊數越多排行越前面)</li>
 </ul>
+<li>使用動畫(Class,JS相互運用)</li>
+<ul>
+<li>上映中的背景動畫</li>
+<li>排行榜動畫</li>
+</ul>
+<li>使用Bootstrap 5</li>
+<ul>
+<li>RWD切版</li>
+</ul>
+<li>使用wow.js</li>
+<li>使用slick.js</li>
 </ol>
 
 
