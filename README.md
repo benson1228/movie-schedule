@@ -1,5 +1,5 @@
 <h2>電影時刻表：查看所有類型電影的放映時間 (前臺)</h2>
-<img src="img/font-end.jpg" height="500" alt="">
+<img src="img/font-end.jpg" height="300" alt="">
 <ol>
 <li>使用Ajax實作</li>
 <ul>
