@@ -28,7 +28,7 @@
 <li>針對使用者定位設置(HTML Geolocation API)。</li>
 </ol>
 <h2>電影時刻表：查看所有類型電影的放映時間 (後臺)</h2>
-<img src="img/-end.jpg" height="350" alt="">
+<img src="img/back-end.jpg" height="350" alt="">
 <ol>
 <li>後臺API的串接(CRUD)</li>
 <li> 會員管理(會員等級、狀態、功能)</li>
