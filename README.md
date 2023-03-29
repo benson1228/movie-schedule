@@ -19,14 +19,14 @@
 <li>使用wow.js</li>
 <li>使用slick.js</li>
 </ol>
-
-
-
-
-
-
-
-
+<h2>全國公廁位置查詢</h2>
+<img src="img/map.jpg" height="350" alt="">
+<ol>
+<li>Ajax 串接 公廁 API  與 台灣縣市鄉鎮 API。</li>
+<li>使用 Leaflet 完成地圖呈現。</li>
+<li>使用 MarkerClusterGroup 群組該區域的公廁。</li>
+<li>針對使用者定位設置(HTML Geolocation API)。</li>
+</ol>
 
 
 
